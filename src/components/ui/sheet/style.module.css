@@ -1,0 +1,76 @@
+/* Parent container to hold the sheet and the overlay */
+.sheetContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+}
+
+/* Overlay */
+.sheetContainer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(27, 42, 65, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 998;
+}
+
+/* Sheet */
+.sheet {
+    min-width: 380px;
+    max-width: 1280px;
+    position: absolute;
+    max-height: 90vh;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff; /* White color */
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.sheetHeader {
+    display: flex;
+    position: sticky;
+    top: 0;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--oxford-blue);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 1rem;
+}
+
+.sheetClose {
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--white);
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    outline: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sheetTitle {
+    font-size: 1.5rem;
+    color: var(--white);
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+.sheetDescription {
+    color: var(--muted);
+    font-size: 0.75rem;
+}
