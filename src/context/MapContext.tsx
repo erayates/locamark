@@ -1,16 +1,23 @@
 import React, { createContext, useReducer, ReactNode } from "react";
-import { Feature, Map, View } from "ol";
+import { Feature, Map, Overlay, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import { Geometry } from "ol/geom";
+import { Geometry, SimpleGeometry } from "ol/geom";
 import { fromLonLat } from "ol/proj";
-import { Modify, Snap, Draw } from "ol/interaction";
+import { Modify, Snap, Draw, Select, Translate } from "ol/interaction";
 import WKT from "ol/format/WKT";
 import { useModalContext } from "../hooks/useModalContext";
 import { _getAll } from "../actions";
 import { IGeometry } from "../types";
+
+type MapPopup = {
+  id: number | null | undefined;
+  name: string | null | undefined;
+  wkt: string | null | undefined;
+  geometry?: SimpleGeometry | null | undefined;
+};
 
 interface MapState {
   map: Map | null;
@@ -19,7 +26,11 @@ interface MapState {
   layer: TileLayer<OSM> | null;
   modify: Modify | null;
   draw: Draw | null;
+  overlay: Overlay | null;
+  select: Select | null;
+  translate: Translate | null;
   drawType: "Point" | "LineString" | "Polygon";
+  mapPopup: MapPopup | null; // Add mapPopup to the MapState
 }
 
 const initialState: MapState = {
@@ -29,7 +40,11 @@ const initialState: MapState = {
   layer: null,
   modify: null,
   draw: null,
+  select: null,
+  overlay: null,
+  translate: null,
   drawType: "Point", // Default draw type
+  mapPopup: null, // Initialize mapPopup as null
 };
 
 type Action =
@@ -39,13 +54,18 @@ type Action =
   | { type: "SET_LAYER"; payload: TileLayer<OSM> }
   | { type: "SET_MODIFY"; payload: Modify }
   | { type: "SET_DRAW"; payload: Draw }
-  | { type: "SET_DRAW_TYPE"; payload: "Point" | "LineString" | "Polygon" };
+  | { type: "SET_DRAW_TYPE"; payload: "Point" | "LineString" | "Polygon" }
+  | { type: "SET_SELECT"; payload: Select }
+  | { type: "SET_OVERLAY"; payload: Overlay }
+  | { type: "SET_MAP_POPUP"; payload: MapPopup | null }
+  | { type: "SET_TRANSLATE"; payload: Translate };
 
 export const MapContext = createContext<
   | {
       state: MapState;
       dispatch: React.Dispatch<Action>;
       setDrawType: (type: "Point" | "LineString" | "Polygon") => void;
+      setMapPopup: (geometry: MapPopup | null) => void; 
     }
   | undefined
 >(undefined);
@@ -64,8 +84,16 @@ const mapReducer = (state: MapState, action: Action): MapState => {
       return { ...state, modify: action.payload };
     case "SET_DRAW":
       return { ...state, draw: action.payload };
+    case "SET_SELECT":
+      return { ...state, select: action.payload };
+    case "SET_OVERLAY":
+      return { ...state, overlay: action.payload };
     case "SET_DRAW_TYPE":
       return { ...state, drawType: action.payload };
+    case "SET_TRANSLATE":
+      return { ...state, translate: action.payload };
+    case "SET_MAP_POPUP":
+      return { ...state, mapPopup: action.payload }; 
     default:
       return state;
   }
@@ -78,8 +106,8 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
 
   const setDrawType = (type: "Point" | "LineString" | "Polygon") => {
     if (state.draw) {
-      state.draw.setActive(false); // Disable the current draw interaction
-      state.map?.removeInteraction(state.draw); // Remove the current draw interaction
+      state.draw.setActive(false); 
+      state.map?.removeInteraction(state.draw); 
     }
 
     const newDraw = new Draw({
@@ -106,7 +134,7 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
         wkt,
       };
 
-      openModal("add", data);
+      openModal("create", data);
 
       event.feature.setGeometry(undefined);
     });
@@ -114,6 +142,10 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
     state.map?.addInteraction(newDraw);
     dispatch({ type: "SET_DRAW", payload: newDraw });
     dispatch({ type: "SET_DRAW_TYPE", payload: type });
+  };
+
+  const setMapPopup = (geometry: MapPopup | null) => {
+    dispatch({ type: "SET_MAP_POPUP", payload: geometry });
   };
 
   React.useEffect(() => {
@@ -154,11 +186,22 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
 
     dispatch({ type: "SET_VIEW", payload: mapView });
 
+    const overlay = new Overlay({
+      element: undefined,
+      autoPan: {
+        animation: {
+          duration: 250,
+        },
+      },
+    });
+
+    dispatch({ type: "SET_OVERLAY", payload: overlay });
+
     const mapInstance = new Map({
       target: "map",
       layers: [osmLayer, vectorLayer],
       controls: [],
-      overlays: [],
+      overlays: [overlay],
       view: mapView,
     });
 
@@ -169,7 +212,7 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
 
     const draw = new Draw({
       source: mapSource,
-      type: state.drawType, // Use the initial draw type
+      type: state.drawType,
     });
 
     draw.on("drawend", function (event) {
@@ -194,9 +237,21 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
     mapInstance.addInteraction(draw);
     dispatch({ type: "SET_DRAW", payload: draw });
 
-    draw.setActive(false); // Disable the draw interaction
+    const select = new Select();
 
-    const addGeometries = async () => {
+    const translate = new Translate({
+      features: select.getFeatures(),
+    });
+
+    mapInstance.addInteraction(select);
+    
+    dispatch({ type: "SET_SELECT", payload: select });
+    dispatch({ type: "SET_TRANSLATE", payload: translate }); 
+
+    draw.setActive(false); 
+
+    const fetchGeometries = async () => {
+      state.source?.clear();
       const response = await _getAll();
       if (response.success) {
         response.data.forEach((geometry: IGeometry) => {
@@ -210,8 +265,8 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
       const wkt = geometry.wkt;
 
       const feature = format.readFeature(wkt, {
-        dataProjection: "EPSG:4326", // Projection of the WKT data
-        featureProjection: "EPSG:3857", // Projection for the map display
+        dataProjection: "EPSG:4326", 
+        featureProjection: "EPSG:3857", 
       });
 
       feature.setProperties({
@@ -224,7 +279,7 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
       mapSource.addFeature(feature);
     };
 
-    addGeometries();
+    fetchGeometries();
 
     return () => {
       mapInstance.setTarget(undefined);
@@ -232,7 +287,7 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <MapContext.Provider value={{ state, dispatch, setDrawType }}>
+    <MapContext.Provider value={{ state, dispatch, setDrawType, setMapPopup }}>
       {children}
     </MapContext.Provider>
   );

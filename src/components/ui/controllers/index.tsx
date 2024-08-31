@@ -6,9 +6,14 @@ import {
   Sun,
   Moon,
 } from "lucide-react";
-import Button from "../button";
-import styles from "./style.module.css";
+import { Button } from "../button";
 import { useMapContext } from "../../../hooks/useMapContext";
+import {
+  Tooltip,
+  TooltipProvider,
+  TooltipTrigger,
+  TooltipContent,
+} from "../tooltip";
 
 interface ControllersProps {
   setTheme: React.Dispatch<React.SetStateAction<"light" | "dark">>;
@@ -33,68 +38,62 @@ const Controllers: React.FC<ControllersProps> = ({ setTheme, theme }) => {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
 
   return (
-    <div className={styles.mapControllers}>
-      <ul className={styles.mapControllersList}>
-        <li className={styles.mapControllersListItem}>
-          <Button
-            color="light"
-            size="md"
-            rounded="full"
-            tooltip="Zoom In"
-            onClick={onZoomIn}
-          >
-            <ZoomIn />
-          </Button>
-        </li>
+    <div className="absolute left-[10px] p-4 rounded-lg top-1/2 -translate-y-1/2 bg-white shadow-lg z-20">
+      <TooltipProvider>
+        <ul className="flex flex-col space-y-2">
+          <li>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button
+                  className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 p-2"
+                  onClick={onZoomIn}
+                >
+                  <ZoomIn />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs">Zoom In</p>
+              </TooltipContent>
+            </Tooltip>
+          </li>
 
-        <li className={styles.mapControllersListItem}>
-          <Button
-            color="light"
-            size="md"
-            rounded="full"
-            tooltip="Zoom Out"
-            onClick={onZoomOut}
-          >
-            <ZoomOut />
-          </Button>
-        </li>
+          <li>
+            <Button
+              className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 p-2"
+              onClick={onZoomOut}
+            >
+              <ZoomOut />
+            </Button>
+          </li>
 
-        <li className={styles.mapControllersListItem}>
-          <Button
-            color="light"
-            size="md"
-            rounded="full"
-            tooltip="Rotate Left"
-            onClick={onRotateLeft}
-          >
-            <RotateCcwSquare />
-          </Button>
-        </li>
+          <li>
+            <Button
+              className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 p-2"
+              onClick={onRotateLeft}
+            >
+              <RotateCcwSquare />
+            </Button>
+          </li>
 
-        <li className={styles.mapControllersListItem}>
-          <Button
-            color="light"
-            size="md"
-            rounded="full"
-            tooltip="Rotate Right"
-            onClick={onRotateRight}
-          >
-            <RotateCwSquare />
-          </Button>
-        </li>
+          <li>
+            <Button
+              className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 p-2"
+              onClick={onRotateRight}
+            >
+              <RotateCwSquare />
+            </Button>
+          </li>
 
-        <li className={styles.mapControllersListItem}>
-          <Button
-            color="light"
-            size="md"
-            rounded="full"
-            tooltip="Toggle Theme"
-            onClick={onToggleTheme}
-          >
-            {theme === "light" ? <Moon /> : <Sun />}
-          </Button>
-        </li>
-      </ul>
+          <li>
+            <Button
+              className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 p-2"
+              onClick={onToggleTheme}
+            >
+              {theme === "light" ? <Moon /> : <Sun />}
+            </Button>
+          </li>
+        </ul>
+      </TooltipProvider>
     </div>
   );
 };

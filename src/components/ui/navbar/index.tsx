@@ -1,9 +1,14 @@
 import { Plus, ScanSearch, House, MapPin, Spline, Shapes } from "lucide-react";
-import styles from "./style.module.css";
-import Button from "../button";
 import { fromLonLat } from "ol/proj";
 import { useMapContext } from "../../../hooks/useMapContext";
 import { useModalContext } from "../../../hooks/useModalContext";
+import { Button } from "../button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../tooltip";
 
 type GeometryType = "Point" | "LineString" | "Polygon";
 
@@ -25,72 +30,102 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className={styles.navbar}>
-      <ul className={styles.navbarList}>
-        <li className={styles.navbarListItem}>
-          <Button
-            color="dark"
-            size="md"
-            rounded="full"
-            tooltip="Go to Center"
-            onClick={onGoToCenter}
-          >
-            <House />
-          </Button>
-        </li>
-        <li className={styles.navbarListItem}>
-          <Button color="dark" size="md" rounded="full">
-            <Plus />
-          </Button>
+    <nav className="absolute bottom-[10px] p-4 rounded-lg left-1/2 -translate-x-1/2 bg-white shadow-lg z-20">
+      <TooltipProvider>
+        <ul className="flex space-x-2">
+          <li className="group">
+            <Tooltip>
+              <TooltipTrigger>
+                <Button
+                  type="submit"
+                  onClick={onGoToCenter}
+                  className="rounded-full bg-richBlack text-white w-12 h-12 p-2"
+                >
+                  <House />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs">Go to Center</p>
+              </TooltipContent>
+            </Tooltip>
+          </li>
+          <li className="group">
+            <Button
+              type="submit"
+              className="rounded-full bg-richBlack text-white w-12 h-12 p-2"
+            >
+              <Plus />
+            </Button>
 
-          <ul className={styles.navbarListItemDropdown}>
-            <li className={styles.navbarListItemDropdownItem}>
-              <Button
-                color="light"
-                size="md"
-                rounded="full"
-                tooltip="Add a Point"
-                onClick={() => handleAddGeometry("Point")}
-              >
-                <MapPin />
-              </Button>
-            </li>
-            <li className={styles.navbarListItemDropdownItem}>
-              <Button
-                color="light"
-                size="md"
-                rounded="full"
-                tooltip="Add a Line"
-                onClick={() => handleAddGeometry("LineString")}
-              >
-                <Spline />
-              </Button>
-            </li>
-            <li className={styles.navbarListItemDropdownItem}>
-              <Button
-                color="light"
-                size="md"
-                rounded="full"
-                tooltip="Add a Polygon"
-                onClick={() => handleAddGeometry("Polygon")}
-              >
-                <Shapes />
-              </Button>
-            </li>
-          </ul>
-        </li>
-        <li className={styles.navbarListItem}>
-          <Button
-            color="dark"
-            size="md"
-            rounded="full"
-            tooltip="Show All Geometries"
-            onClick={handleShowAllGeometries}
-          >
-            <ScanSearch />
-          </Button>
-        </li>
-      </ul>
+            <ul className="absolute invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-300 bottom-[80%] pb-6 space-y-2 group-hover:">
+              <li>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Button
+                      type="submit"
+                      className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 p-2"
+                      onClick={() => handleAddGeometry("Point")}
+                    >
+                      <MapPin />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-xs">Add a Point</p>
+                  </TooltipContent>
+                </Tooltip>
+              </li>
+              <li>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Button
+                      type="submit"
+                      className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 p-2"
+                      onClick={() => handleAddGeometry("LineString")}
+                    >
+                      <Spline />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-xs">Add a Linestring</p>
+                  </TooltipContent>
+                </Tooltip>
+              </li>
+              <li>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Button
+                      type="submit"
+                      className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 p-2"
+                      onClick={() => handleAddGeometry("Polygon")}
+                    >
+                      <Shapes />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-xs">Add a Polygon</p>
+                  </TooltipContent>
+                </Tooltip>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <Tooltip>
+              <TooltipTrigger>
+                <Button
+                  type="submit"
+                  className="rounded-full bg-richBlack text-white w-12 h-12 p-2"
+                  onClick={handleShowAllGeometries}
+                >
+                  <ScanSearch />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs">Show All Geometries</p>
+              </TooltipContent>
+            </Tooltip>
+          </li>
+        </ul>
+      </TooltipProvider>
     </nav>
   );
 };

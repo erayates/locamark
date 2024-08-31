@@ -6,7 +6,9 @@ import { Map, View } from "ol";
 import React from "react";
 import { MapProvider } from "./context/MapContext";
 import { ModalProvider } from "./context/ModalContext";
-import Modal from "./components/Modal";
+import Modals from "./components/Modals";
+import { Toaster } from "./components/ui/toaster";
+import MapPopup from "./components/MapPopup";
 
 export interface InterfaceMapSettings {
   view: View | null;
@@ -31,8 +33,11 @@ const App: React.FC = () => {
           <Navbar />
           <MapComponent theme={theme} />
 
-          <Modal />
+          <MapPopup />
+          <Modals />
         </main>
+
+        <Toaster />
       </MapProvider>
     </ModalProvider>
   );
