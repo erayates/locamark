@@ -31,6 +31,7 @@ interface MapState {
   translate: Translate | null;
   drawType: "Point" | "LineString" | "Polygon";
   mapPopup: MapPopup | null; // Add mapPopup to the MapState
+  geometries: IGeometry[] | []; // Add geometries to the MapState
 }
 
 const initialState: MapState = {
@@ -45,6 +46,7 @@ const initialState: MapState = {
   translate: null,
   drawType: "Point", // Default draw type
   mapPopup: null, // Initialize mapPopup as null
+  geometries: [],
 };
 
 type Action =
@@ -58,14 +60,16 @@ type Action =
   | { type: "SET_SELECT"; payload: Select }
   | { type: "SET_OVERLAY"; payload: Overlay }
   | { type: "SET_MAP_POPUP"; payload: MapPopup | null }
-  | { type: "SET_TRANSLATE"; payload: Translate };
+  | { type: "SET_TRANSLATE"; payload: Translate }
+  | { type: "SET_GEOMETRIES"; payload: IGeometry[] | [] };
 
 export const MapContext = createContext<
   | {
       state: MapState;
       dispatch: React.Dispatch<Action>;
       setDrawType: (type: "Point" | "LineString" | "Polygon") => void;
-      setMapPopup: (geometry: MapPopup | null) => void; 
+      setMapPopup: (geometry: MapPopup | null) => void;
+      fetchGeometries: () => void;
     }
   | undefined
 >(undefined);
@@ -93,7 +97,9 @@ const mapReducer = (state: MapState, action: Action): MapState => {
     case "SET_TRANSLATE":
       return { ...state, translate: action.payload };
     case "SET_MAP_POPUP":
-      return { ...state, mapPopup: action.payload }; 
+      return { ...state, mapPopup: action.payload };
+    case "SET_GEOMETRIES":
+      return { ...state, geometries: action.payload };
     default:
       return state;
   }
@@ -106,14 +112,16 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
 
   const setDrawType = (type: "Point" | "LineString" | "Polygon") => {
     if (state.draw) {
-      state.draw.setActive(false); 
-      state.map?.removeInteraction(state.draw); 
+      state.draw.setActive(false);
+      state.map?.removeInteraction(state.draw);
     }
 
     const newDraw = new Draw({
       source: state.source!,
       type: type,
     });
+
+    dispatch({ type: "SET_DRAW", payload: newDraw });
 
     newDraw.on("drawend", function (event) {
       newDraw.setActive(false);
@@ -148,6 +156,36 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: "SET_MAP_POPUP", payload: geometry });
   };
 
+  const fetchGeometries = async () => {
+    const response = await _getAll();
+    if (response.success) {
+      state.source?.clear();
+      dispatch({ type: "SET_GEOMETRIES", payload: response.data });
+      response.data.forEach((geometry: IGeometry) => {
+        createGeometry(geometry);
+      });
+    }
+  };
+
+  const createGeometry = (geometry: IGeometry) => {
+    const format = new WKT();
+    const wkt = geometry.wkt;
+
+    const feature = format.readFeature(wkt, {
+      dataProjection: "EPSG:4326",
+      featureProjection: "EPSG:3857",
+    });
+
+    feature.setProperties({
+      id: geometry.id,
+      name: geometry.name,
+      wkt: geometry.wkt,
+    });
+
+    feature.setId(geometry.id);
+    state.source?.addFeature(feature);
+  };
+
   React.useEffect(() => {
     const mapSource = new VectorSource();
     dispatch({ type: "SET_SOURCE", payload: mapSource });
@@ -156,9 +194,9 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
       source: mapSource,
       style: {
         "icon-src":
-          "https://cdn-icons-png.freepik.com/256/16138/16138236.png?semt=ais_hybrid",
+          "https://openlayers.org/en/latest/examples/data/icon.png",
         "icon-opacity": 0.95,
-        "icon-scale": 0.15,
+        "icon-scale": 1,
         "icon-anchor": [0.5, 46],
         "icon-anchor-x-units": "fraction",
         "icon-anchor-y-units": "pixels",
@@ -205,6 +243,7 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
       view: mapView,
     });
 
+
     const snap = new Snap({ source: mapSource });
     mapInstance.addInteraction(snap);
 
@@ -244,50 +283,27 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
     });
 
     mapInstance.addInteraction(select);
-    
+
     dispatch({ type: "SET_SELECT", payload: select });
-    dispatch({ type: "SET_TRANSLATE", payload: translate }); 
+    dispatch({ type: "SET_TRANSLATE", payload: translate });
 
-    draw.setActive(false); 
-
-    const fetchGeometries = async () => {
-      state.source?.clear();
-      const response = await _getAll();
-      if (response.success) {
-        response.data.forEach((geometry: IGeometry) => {
-          createGeometry(geometry);
-        });
-      }
-    };
-
-    const createGeometry = (geometry: IGeometry) => {
-      const format = new WKT();
-      const wkt = geometry.wkt;
-
-      const feature = format.readFeature(wkt, {
-        dataProjection: "EPSG:4326", 
-        featureProjection: "EPSG:3857", 
-      });
-
-      feature.setProperties({
-        id: geometry.id,
-        name: geometry.name,
-        wkt: geometry.wkt,
-      });
-
-      feature.setId(geometry.id);
-      mapSource.addFeature(feature);
-    };
-
-    fetchGeometries();
+    draw.setActive(false);
 
     return () => {
       mapInstance.setTarget(undefined);
     };
   }, []);
 
+  React.useEffect(() => {
+    if (state.map && state.source) {
+      fetchGeometries();
+    }
+  }, [state.map, state.source]);
+
   return (
-    <MapContext.Provider value={{ state, dispatch, setDrawType, setMapPopup }}>
+    <MapContext.Provider
+      value={{ state, dispatch, setDrawType, setMapPopup, fetchGeometries }}
+    >
       {children}
     </MapContext.Provider>
   );

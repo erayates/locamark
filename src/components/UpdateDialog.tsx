@@ -23,7 +23,7 @@ export const UpdateDialog: React.FC = () => {
   const { modals, closeModal } = useModalContext();
   const [responseLoading, setResponseLoading] = React.useState<boolean>(false);
 
-  const { state } = useMapContext();
+  const { state, fetchGeometries, setMapPopup } = useMapContext();
 
   const handleUpdate = async () => {
     try {
@@ -40,11 +40,13 @@ export const UpdateDialog: React.FC = () => {
           variant: "success",
         });
 
-        if (state.translate && state.select) {
+        if (state.translate && state.select && state.modify) {
           state.map?.removeInteraction(state.translate);
+          state.map?.removeInteraction(state.modify);
           state.select.getFeatures().clear();
         }
 
+        fetchGeometries();
         handleClose();
         return;
       }
@@ -67,18 +69,27 @@ export const UpdateDialog: React.FC = () => {
   };
 
   const handleClose = () => {
+    fetchGeometries();
+
+    if (state.translate && state.select && state.modify) {
+      state.map?.removeInteraction(state.translate);
+      state.map?.removeInteraction(state.modify);
+      state.select.getFeatures().clear();
+    }
+
+    setMapPopup(null);
     closeModal("updateDialog");
   };
 
   return (
-    <AlertDialog open={modals.updateDialog.isOpen}>
+    <AlertDialog open={modals.updateDialog.isOpen} onOpenChange={handleClose}>
       <AlertDialogTrigger></AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently update your
-            geometry and update your data from our server.
+            You are trying to update a geometry. A new position will be
+            set for this geometry if you continue.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

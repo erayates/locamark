@@ -13,17 +13,17 @@ import {
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { useToast } from "./ui/use-toast";
+import { useMapContext } from "@/hooks/useMapContext";
 
 export function DeleteDialog({
   elementId,
-  closePopup,
   variantOutline,
 }: {
   elementId: number;
-  closePopup?: () => void;
   variantOutline?: boolean;
 }) {
   const { toast } = useToast();
+  const { setMapPopup, state, fetchGeometries } = useMapContext();
 
   const handleDelete = async () => {
     try {
@@ -35,10 +35,9 @@ export function DeleteDialog({
           variant: "success",
         });
 
-        if (closePopup) {
-          closePopup();
-          return;
-        }
+        state.overlay?.setPosition(undefined);
+        setMapPopup(null);
+        fetchGeometries();
         return;
       }
 

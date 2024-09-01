@@ -3,13 +3,14 @@ import { useModalContext } from "../hooks/useModalContext";
 import { ResponsiveDialog } from "./ResponsiveDialog";
 import { UpdateForm } from "./forms/update-form";
 import { CreateForm } from "./forms/create-form";
-import GeometriesTable from "./table";
 import { UpdateDialog } from "./UpdateDialog";
-
-// Define the fetcher function
+import { DataTable } from "./table/data-table";
+import { columns } from "./table/columns";
+import { useMapContext } from "@/hooks/useMapContext";
 
 const Modals: React.FC = () => {
   const { modals, closeModal } = useModalContext();
+  const { state } = useMapContext();
 
   // Handle modal close
   const handleModalClose = (modalName: string) => {
@@ -43,10 +44,10 @@ const Modals: React.FC = () => {
         description="View and manage all geometries onto the map."
         isDataTable={true}
       >
-        <GeometriesTable />
+        <DataTable columns={columns} data={state.geometries} />
       </ResponsiveDialog>
 
-      <UpdateDialog />
+      {modals.updateDialog.isOpen && <UpdateDialog />}
     </React.Fragment>
   );
 };

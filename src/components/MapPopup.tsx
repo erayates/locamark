@@ -63,7 +63,7 @@ export default function MapPopup() {
   const handleClosePopup = () => {
     setMapPopup(null);
     state.overlay?.setPosition(undefined);
-    // state.select?.getFeatures().clear();
+    state.select?.getFeatures().clear();
   };
 
   const handleDragDropUpdate = () => {
@@ -74,8 +74,10 @@ export default function MapPopup() {
       variant: "info",
     });
 
-    if (state.translate) {
+    if (state.translate && state.modify) {
       state.map?.addInteraction(state.translate);
+      state.map?.addInteraction(state.modify);
+      state.modify.setActive(true);
     }
 
     state.translate?.on("translateend", async (event) => {
@@ -94,12 +96,50 @@ export default function MapPopup() {
 
       const data = { id, name, wkt: wkt ?? "" };
 
-      console.log(wkt);
+      openModal("updateDialog", data);
+    });
+
+    state.modify?.on("modifystart", async (event) => {
+      const feature = event.features.item(0);
+
+      if (
+        feature.getId() !== state.mapPopup?.id &&
+        feature.getGeometry()?.getType() !== "Point"
+      ) {
+        event.preventDefault();
+        toast({
+          title: "Modification Restricted",
+          description:
+            "You can only modify the geometry of the currently selected feature.",
+          variant: "destructive",
+        });
+        state.modify?.setActive(false);
+        state.select?.getFeatures().clear();
+        return;
+      }
+    });
+
+    state.modify?.on("modifyend", async (event) => {
+      const feature = event.features.item(0);
+      const format = new WKT();
+      const geometry = feature.getGeometry();
+      const wkt =
+        geometry &&
+        (format.writeGeometry(geometry, {
+          dataProjection: "EPSG:4326",
+          featureProjection: "EPSG:3857",
+        }) as string);
+
+      const id = feature.getId() as number;
+      const name = feature.get("name") as string;
+
+      const data = { id, name, wkt: wkt ?? "" };
 
       openModal("updateDialog", data);
     });
 
-    handleClosePopup();
+    setMapPopup(null);
+    state.overlay?.setPosition(undefined);
   };
 
   const handleManuelUpdate = () => {
@@ -123,9 +163,20 @@ export default function MapPopup() {
             {state.mapPopup?.geometry?.getType()}
           </p>
         </div>
-        <p className="font-semibold text-xs sm:text-sm">
-          WKT: {state.mapPopup?.wkt}
-        </p>
+        <div className=" mt-2 space-y-2">
+          <div className="h-full space-y-2">
+            <p className="bg-green-500 text-white font-semibold text-xs p-2 rounded-lg">
+              WKT (Well-Known Text)
+            </p>
+            <p className="text-xs text-muted-foreground rounded-lg">
+              Well-known text is a text markup language for representing vector
+              geometry objects.
+            </p>
+          </div>
+          <p className="text-xs sm:text-sm text-muted-foreground">
+            {state.mapPopup?.wkt}
+          </p>
+        </div>
       </div>
 
       <div className="flex flex-col text-white rounded-lg justify-between col-span-2">
@@ -164,10 +215,7 @@ export default function MapPopup() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <DeleteDialog
-            elementId={state.mapPopup?.id ?? 0}
-            closePopup={handleClosePopup}
-          />
+          <DeleteDialog elementId={state.mapPopup?.id ?? 0} />
         </div>
       </div>
     </div>

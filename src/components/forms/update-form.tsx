@@ -10,6 +10,7 @@ import CustomInput from "../form-elements/custom-input";
 import { useModalContext } from "@/hooks/useModalContext";
 import { useToast } from "../ui/use-toast";
 import { _update } from "@/actions";
+import { useMapContext } from "@/hooks/useMapContext";
 
 const FormSchema = z.object({
   name: z
@@ -27,6 +28,7 @@ const FormSchema = z.object({
 
 export function UpdateForm() {
   const { modals, closeModal } = useModalContext();
+  const { fetchGeometries, setMapPopup, state } = useMapContext();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -44,6 +46,10 @@ export function UpdateForm() {
           description: "Geometry updated successfully.",
           variant: "success",
         });
+
+        setMapPopup(null);
+        state.overlay?.setPosition(undefined);
+        fetchGeometries();
         return;
       }
 

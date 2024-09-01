@@ -11,6 +11,7 @@ import { useModalContext } from "@/hooks/useModalContext";
 import { _create } from "@/actions";
 import { RotateCcw } from "lucide-react";
 import { useToast } from "../ui/use-toast";
+import { useMapContext } from "@/hooks/useMapContext";
 
 const FormSchema = z.object({
   name: z
@@ -28,6 +29,7 @@ const FormSchema = z.object({
 
 export function CreateForm() {
   const { modals, closeModal } = useModalContext();
+  const { fetchGeometries } = useMapContext();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -45,6 +47,8 @@ export function CreateForm() {
           description: "Geometry created successfully.",
           variant: "success",
         });
+
+        fetchGeometries();
         return;
       }
 

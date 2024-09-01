@@ -16,7 +16,6 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { ScrollArea } from "./ui/scroll-area"; // Ensure ScrollArea is correctly imported
 
 export function ResponsiveDialog({
   children,
@@ -41,7 +40,7 @@ export function ResponsiveDialog({
     return (
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className={dialogClassses}>
-          <DialogHeader className="bg-oxfordBlue rounded-md p-4 ">
+          <DialogHeader className="bg-oxfordBlue rounded-md p-4">
             <DialogTitle className="font-semibold text-lg leading-4 text-white">
               {title}
             </DialogTitle>
@@ -51,13 +50,7 @@ export function ResponsiveDialog({
               </DialogDescription>
             )}
           </DialogHeader>
-          {isDataTable ? (
-            <ScrollArea className="h-[600px] border rounded-lg overflow-auto">
-              <div className="">{children}</div>
-            </ScrollArea>
-          ) : (
-            children
-          )}
+          {children}
         </DialogContent>
       </Dialog>
     );

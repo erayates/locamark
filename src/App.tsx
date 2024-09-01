@@ -9,6 +9,7 @@ import { ModalProvider } from "./context/ModalContext";
 import Modals from "./components/Modals";
 import { Toaster } from "./components/ui/toaster";
 import MapPopup from "./components/MapPopup";
+import { TooltipProvider } from "./components/ui/tooltip";
 
 export interface InterfaceMapSettings {
   view: View | null;
@@ -28,16 +29,16 @@ const App: React.FC = () => {
   return (
     <ModalProvider>
       <MapProvider>
-        <main className="">
-          <Controllers theme={theme} setTheme={setTheme} />
-          <Navbar />
-          <MapComponent theme={theme} />
-
-          <MapPopup />
-          <Modals />
-        </main>
-
-        <Toaster />
+        <TooltipProvider>
+          <main className="h-screen">
+            <Controllers theme={theme} setTheme={setTheme} />
+            <Navbar />
+            <MapComponent theme={theme} />
+            <MapPopup />
+            <Modals />
+          </main>
+          <Toaster />
+        </TooltipProvider>
       </MapProvider>
     </ModalProvider>
   );
