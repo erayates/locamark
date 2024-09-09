@@ -61,7 +61,9 @@ const TableActions: React.FC<TableActionsProps> = ({ rowData }) => {
     }
 
     state.select?.getFeatures().clear();
-    state.select?.getFeatures().push(existingFeature);
+    if (existingFeature) {
+      state.select?.getFeatures().push(existingFeature);
+    }
 
     closeModal("table");
   };
@@ -88,10 +90,19 @@ const TableActions: React.FC<TableActionsProps> = ({ rowData }) => {
       geometry: geometry as SimpleGeometry,
     };
 
+    const existingFeature = state.source
+    ?.getFeatures()
+    .find((f) => f.get("id") === rowData.id);
+
+    if(!existingFeature) return;
+
     setMapPopup(popupData);
 
     closeModal("table");
     state.overlay?.setPosition(center);
+    state.select?.getFeatures().clear();
+    state.select?.getFeatures().push(existingFeature);
+
   };
 
   return (
@@ -100,7 +111,7 @@ const TableActions: React.FC<TableActionsProps> = ({ rowData }) => {
         <Eye size={16} />
       </Button>
       <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger asChild>
           <Button variant="outline">
             <Pencil size={16} />
           </Button>

@@ -6,6 +6,7 @@ import { Button } from "../button";
 import {
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
 } from "../tooltip";
 import { useToast } from "../use-toast";
@@ -32,102 +33,97 @@ const Navbar: React.FC = () => {
   };
 
   const handleShowAllGeometries = () => {
-    openModal("table");
+    openModal("table", { id: 0, wkt: "", name: "" });
   };
 
   return (
     <nav className="absolute bottom-[10px] p-4 rounded-lg left-1/2 -translate-x-1/2 bg-white shadow-lg z-20">
       <ul className="flex space-x-2">
         <li className="group">
-          <Tooltip>
-            <TooltipTrigger>
-              <Button
-                type="submit"
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger
+                className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 flex justify-center items-center"
                 onClick={onGoToCenter}
-                className="rounded-full bg-richBlack text-white w-12 h-12 p-2"
               >
                 <House />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p className="text-xs">Go to Center</p>
-            </TooltipContent>
-          </Tooltip>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs">Go to Center</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </li>
         <li className="group">
           <Button
             type="submit"
-            className="rounded-full bg-richBlack text-white w-12 h-12 p-2"
+            className="rounded-full bg-green-800 hover:bg-green-900 text-white w-12 h-12 p-2"
           >
             <Plus />
           </Button>
 
           <ul className="absolute invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-300 bottom-[80%] pb-6 space-y-2 group-hover:">
             <li>
-              <Tooltip>
-                <TooltipTrigger>
-                  <Button
-                    type="submit"
-                    className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 p-2"
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger
+                    className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 flex justify-center items-center"
                     onClick={() => handleAddGeometry("Point")}
                   >
                     <MapPin />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="text-xs">Add a Point</p>
-                </TooltipContent>
-              </Tooltip>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-xs">Add a Point</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </li>
             <li>
-              <Tooltip>
-                <TooltipTrigger>
-                  <Button
-                    type="submit"
-                    className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 p-2"
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger
+                    className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 flex justify-center items-center"
                     onClick={() => handleAddGeometry("LineString")}
                   >
                     <Spline />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="text-xs">Add a Linestring</p>
-                </TooltipContent>
-              </Tooltip>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-xs">Add a Linestring</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </li>
             <li>
-              <Tooltip>
-                <TooltipTrigger>
-                  <Button
-                    type="submit"
-                    className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 p-2"
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger
+                    className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 flex justify-center items-center"
                     onClick={() => handleAddGeometry("Polygon")}
                   >
                     <Shapes />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="text-xs">Add a Polygon</p>
-                </TooltipContent>
-              </Tooltip>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="text-xs">Add a Polygon</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </li>
           </ul>
         </li>
         <li>
-          <Tooltip>
-            <TooltipTrigger>
-              <Button
-                type="submit"
-                className="rounded-full bg-richBlack text-white w-12 h-12 p-2"
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger
+                className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 flex justify-center items-center"
                 onClick={handleShowAllGeometries}
               >
                 <ScanSearch />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p className="text-xs">Show All Geometries</p>
-            </TooltipContent>
-          </Tooltip>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs">Show All Geometries</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </li>
       </ul>
     </nav>

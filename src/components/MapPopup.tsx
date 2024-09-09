@@ -46,9 +46,9 @@ export default function MapPopup() {
     });
 
     if (state.translate && state.modify) {
+      state.modify.setActive(true);
       state.map?.addInteraction(state.translate);
       state.map?.addInteraction(state.modify);
-      state.modify.setActive(true);
     }
 
     setMapPopup(null);
@@ -102,29 +102,21 @@ export default function MapPopup() {
 
         <div className="flex flex-col items-center space-y-2">
           <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Button className="p-3 bg-blue-600 hover:bg-blue-800">
-                <Pencil color="white" strokeWidth={3} size={20} />
-              </Button>
+            <DropdownMenuTrigger className="bg-blue-600 hover:bg-blue-800 rounded-lg px-3 py-2.5">
+              <Pencil color="white" strokeWidth={3} size={20} />
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuItem>
-                <Button
-                  className="text-xs w-full"
-                  variant="outline"
-                  onClick={handleManuelUpdate}
-                >
-                  Manuel Update
-                </Button>
+            <DropdownMenuContent className="space-y-2 p-2">
+              <DropdownMenuItem
+                className="text-xs w-full cursor-pointer font-medium border p-2 flex justify-center"
+                onClick={handleManuelUpdate}
+              >
+                Manuel Update
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Button
-                  className="text-xs w-full"
-                  variant="outline"
-                  onClick={handleDragDropUpdate}
-                >
-                  Drag & Drop Update
-                </Button>
+              <DropdownMenuItem
+                className="text-xs w-full cursor-pointer font-medium border p-2 flex justify-center"
+                onClick={handleDragDropUpdate}
+              >
+                Drag & Drop Update
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

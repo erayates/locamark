@@ -38,7 +38,10 @@ export function UpdateForm() {
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const response = await _update(modals.update.data?.id ?? 0, data);
+      const { wkt, name } = data;
+      const updateData = { wkt, name };
+
+      const response = await _update(modals.update.data?.id ?? 0, updateData);
       if (response.success) {
         closeModal("update");
         toast({

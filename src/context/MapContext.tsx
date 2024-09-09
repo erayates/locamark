@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, useReducer, ReactNode } from "react";
 import { Feature, Map, Overlay, View } from "ol";
 import TileLayer from "ol/layer/Tile";
@@ -107,7 +108,6 @@ const mapReducer = (state: MapState, action: Action): MapState => {
 
 export const MapProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(mapReducer, initialState);
-
   const { openModal } = useModalContext();
 
   const setDrawType = (type: "Point" | "LineString" | "Polygon") => {
@@ -193,8 +193,7 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
     const vectorLayer = new VectorLayer({
       source: mapSource,
       style: {
-        "icon-src":
-          "https://openlayers.org/en/latest/examples/data/icon.png",
+        "icon-src": "https://openlayers.org/en/latest/examples/data/icon.png",
         "icon-opacity": 0.95,
         "icon-scale": 1,
         "icon-anchor": [0.5, 46],
@@ -243,7 +242,6 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
       view: mapView,
     });
 
-
     const snap = new Snap({ source: mapSource });
     mapInstance.addInteraction(snap);
 
@@ -267,9 +265,7 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
             featureProjection: "EPSG:3857",
           })
         : "";
-
-      console.log(wkt);
-
+         
       event.feature.setGeometry(undefined);
     });
 

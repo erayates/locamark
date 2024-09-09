@@ -6,9 +6,13 @@ import {
   Sun,
   Moon,
 } from "lucide-react";
-import { Button } from "../button";
 import { useMapContext } from "../../../hooks/useMapContext";
-import { Tooltip, TooltipTrigger, TooltipContent } from "../tooltip";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from "../tooltip";
 
 interface ControllersProps {
   setTheme: React.Dispatch<React.SetStateAction<"light" | "dark">>;
@@ -36,83 +40,83 @@ const Controllers: React.FC<ControllersProps> = ({ setTheme, theme }) => {
     <div className="absolute left-[10px] p-4 rounded-lg top-1/2 -translate-y-1/2 bg-white shadow-lg z-20">
       <ul className="flex flex-col space-y-2">
         <li>
-          <Tooltip>
-            <TooltipTrigger>
-              <Button
-                className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 p-2"
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger
                 onClick={onZoomIn}
+                className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 flex justify-center items-center"
               >
                 <ZoomIn />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p className="text-xs">Zoom In</p>
-            </TooltipContent>
-          </Tooltip>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs">Zoom In</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </li>
 
         <li>
-          <Tooltip>
-            <TooltipTrigger>
-              <Button
-                className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 p-2"
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger
                 onClick={onZoomOut}
+                className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 flex justify-center items-center"
               >
                 <ZoomOut />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p className="text-xs">Zoom Out</p>
-            </TooltipContent>
-          </Tooltip>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs">Zoom Out</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </li>
 
         <li>
-          <Tooltip>
-            <TooltipTrigger>
-              <Button
-                className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 p-2"
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger
                 onClick={onRotateLeft}
+                className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 flex justify-center items-center"
               >
                 <RotateCcwSquare />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p className="text-xs">Rotate Left</p>
-            </TooltipContent>
-          </Tooltip>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs">Rotate Left</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </li>
 
         <li>
-          <Tooltip>
-            <TooltipTrigger>
-              <Button
-                className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 p-2"
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger
                 onClick={onRotateRight}
+                className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 flex justify-center items-center"
               >
                 <RotateCwSquare />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p className="text-xs">Rotate Right</p>
-            </TooltipContent>
-          </Tooltip>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs">Rotate Right</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </li>
 
         <li>
-          <Tooltip>
-            <TooltipTrigger>
-              <Button
-                className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 p-2"
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger
                 onClick={onToggleTheme}
+                className="rounded-full bg-white text-richBlack hover:bg-muted shadow-md border w-12 h-12 flex justify-center items-center"
               >
                 {theme === "light" ? <Moon /> : <Sun />}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p className="text-xs">Toggle Theme</p>
-            </TooltipContent>
-          </Tooltip>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs">Toggle Theme</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </li>
       </ul>
     </div>
