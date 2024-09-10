@@ -77,7 +77,6 @@ export const AuthProvider = ({ children }: Props) => {
   const loginUser = async (username: string, password: string) => {
     try {
       const response = await _login(username, password);
-      console.log(response);
       if (response) {
         localStorage.setItem("token", response.data.token);
         const userObj = {

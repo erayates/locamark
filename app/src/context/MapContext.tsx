@@ -31,8 +31,8 @@ interface MapState {
   select: Select | null;
   translate: Translate | null;
   drawType: "Point" | "LineString" | "Polygon";
-  mapPopup: MapPopup | null; // Add mapPopup to the MapState
-  geometries: IGeometry[] | []; // Add geometries to the MapState
+  mapPopup: MapPopup | null; 
+  geometries: IGeometry[] | []; 
 }
 
 const initialState: MapState = {
@@ -45,8 +45,8 @@ const initialState: MapState = {
   select: null,
   overlay: null,
   translate: null,
-  drawType: "Point", // Default draw type
-  mapPopup: null, // Initialize mapPopup as null
+  drawType: "Point",
+  mapPopup: null, 
   geometries: [],
 };
 
@@ -250,23 +250,6 @@ export const MapProvider = ({ children }: { children: ReactNode }) => {
     const draw = new Draw({
       source: mapSource,
       type: state.drawType,
-    });
-
-    draw.on("drawend", function (event) {
-      draw.setActive(false);
-
-      const feature = event.feature ?? new Geometry();
-      const format = new WKT();
-
-      const geometry = feature.getGeometry();
-      const wkt = geometry
-        ? format.writeGeometry(geometry, {
-            dataProjection: "EPSG:4326",
-            featureProjection: "EPSG:3857",
-          })
-        : "";
-         
-      event.feature.setGeometry(undefined);
     });
 
     mapInstance.addInteraction(draw);
