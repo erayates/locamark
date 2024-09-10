@@ -66,10 +66,9 @@ export const AuthProvider = ({ children }: Props) => {
         navigate("/");
       }
     } catch (e) {
-      console.error("Error: ", e);
       toast({
         title: "ERROR!",
-        description: e.response.data[0].description,
+        description: (e as Error).message,
         variant: "destructive",
       });
     }
@@ -96,10 +95,9 @@ export const AuthProvider = ({ children }: Props) => {
         navigate("/");
       }
     } catch (e) {
-      console.error("Error: ", e);
       toast({
         title: "ERROR!",
-        description: e.response.data,
+        description: (e as Error).message,
         variant: "destructive",
       });
     }

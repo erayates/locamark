@@ -35,6 +35,7 @@ export function useFetch<T>(fetcher: Fetcher<T>): FetchState<T> {
             isError: "Failed to fetch data",
           });
         }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
         setFetchState({
           data: null,
