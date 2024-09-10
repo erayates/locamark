@@ -28,24 +28,25 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#about-the-project">ℹ About The Project</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#built-with">🛠 Built With</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#about-the-project">🖼️ Screenshots & Videos</a>
+    </li>
+    <li>
+      <a href="#getting-started">➡ Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#usage">🖱 Usage</a></li>
+    <li><a href="#roadmap">🗺 Roadmap</a></li>
+    <li><a href="#license">© License</a></li>
+    <li><a href="#contact">💌 Contact</a></li>
   </ol>
 </details>
 
@@ -73,6 +74,23 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
   
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- SCREENSHOTS & VIDEOS -->
+## 🖼️ Screenshots & Videos
+
+![image](https://github.com/user-attachments/assets/dee8625b-e883-4cc8-89f1-2470992072cb)
+![image](https://github.com/user-attachments/assets/e13637bc-83ac-4135-9c8a-312cb5f01a78)
+![image](https://github.com/user-attachments/assets/8cb1656d-c351-4f4e-951a-b94f087623a3)
+![image](https://github.com/user-attachments/assets/ddd81594-b81d-433a-824e-7450986ef812)
+![image](https://github.com/user-attachments/assets/2c8e1221-13f5-4665-a91d-1a7b2d5f2a27)
+![image](https://github.com/user-attachments/assets/7161dc12-6531-4d9f-82f3-c1dcf7c5ce65)
+
+
+
+
+
 
 
 
@@ -128,9 +146,44 @@ To get a local copy up and running, follow these steps:
 <!-- USAGE EXAMPLES -->
 ## 🖱 Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+LocaMark is designed to offer a smooth and intuitive experience for managing your marked locations. Below are some key examples of how you can use the app:
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+### 1. **Login and Register Process**
+   - **Register:** New users can create an account by registering with basic information such as email and password.
+   - **Login:** After registering, users can log in to access their personal map and saved locations.
+   - Once logged in, users will be directed to the map interface where they can begin marking locations.
+
+### 2. **Adding New Locations, Areas, or Lines**
+   - Users can mark new **points**, **areas**, or **lines** on the map by clicking on the map and filling out the required details.
+   - Each location can be given a name, description, and saved for later reference.
+   - A confirmation panel will appear before finalizing the marker, giving you the option to confirm or cancel the action.
+
+### 3. **Viewing All Marked Geometries**
+   - The application displays all your saved geometries (points, areas, and lines) in a table below the map.
+   - **Actions on the table:**
+     - **Show:** Clicking "Show" for any geometry will close the table and zoom into the specific geometry on the map, opening a popup to display details such as name and description.
+     - **Update:** You have two options for updating geometries:
+       - **Manual Update:** Click the update button to manually change the details of the marker.
+       - **Drag & Drop:** Easily drag markers on the map to new positions and confirm changes via an alert.
+     - **Delete:** Remove any marker or geometry from the map by clicking "Delete."
+
+### 4. **Drag & Drop Feature**
+   - Geometries can be easily repositioned by dragging and dropping them to a new location on the map.
+   - After dropping, an alert will appear asking for confirmation before saving the new position. Once confirmed, the geometry is updated in the database, and the page is refreshed.
+
+### 5. **Go Back to Center (Zoom to Turkey)**
+   - The app includes a feature to quickly zoom back to the center of Turkey, making it easy to reset the map view and focus on the main area of interest.
+
+### 6. **Custom Map Controls**
+   - **Navigation:** LocaMark comes with custom controllers for map navigation:
+     - **Zoom In/Out:** Buttons to zoom the map in or out.
+     - **Rotate Left/Right:** Rotate the map view for better orientation.
+   - **Dark Mode:** Toggle between light and dark modes for a customized user experience, especially useful for night-time viewing.
+
+### 7. **Logout**
+   - A **Logout** button is located at the top of the page, allowing users to easily sign out of their account.
+
+For more examples and detailed information, please refer to the [Documentation](#) (Not prepared yet!).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
