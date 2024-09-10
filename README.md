@@ -192,7 +192,8 @@ For more examples and detailed information, please refer to the [Documentation](
 <!-- ROADMAP -->
 ## 🗺 Roadmap
 
-- [x] There is no roadmap item right now.
+- [ ] Role Based Authentication and Authorization
+- [ ] Admin Dashboard
 
 
 See the [open issues](https://github.com/erayates/locamark/issues) for a full list of proposed features (and known issues).
