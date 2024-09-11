@@ -192,7 +192,7 @@ For more examples and detailed information, please refer to the [Documentation](
 <!-- ROADMAP -->
 ## 🗺 Roadmap
 
-- [ ] Role Based Authentication and Authorization
+- [X] Role Based Authentication and Authorization
 - [ ] Admin Dashboard
 
 
