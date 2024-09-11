@@ -13,7 +13,7 @@
   <p align="center">
     Your Personal Map, Your Shared Memories!
     <br />
-    <a href="https://github.com/erayates/locamark">View Demo</a>
+    <a href="https://locamark.vercel.app/">View Demo</a>
     ·
     <a href="https://github.com/erayates/locamark/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     ·
