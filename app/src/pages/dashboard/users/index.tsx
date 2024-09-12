@@ -10,6 +10,8 @@ import DashboardPageHeader from "@/components/dashboard/page-header";
 const UsersPage: React.FC = () => {
   const { data, isLoading, isError } = useFetch(_getAllUsers);
 
+  console.log(data);
+
   return (
     <div className="pt-10">
       <DashboardPageHeader

@@ -1,10 +1,12 @@
+import { CustomPieChart } from "@/components/dashboard/charts/pie-chart";
+import { CustomBarChart } from "@/components/dashboard/charts/bar-chart";
 import DashboardCard from "@/components/dashboard/dashboard-card";
 import DashboardPageHeader from "@/components/dashboard/page-header";
 import { UsersRound, Waypoints } from "lucide-react";
 
 const DashboardPage: React.FC = () => {
   return (
-    <div className="pt-10">
+    <div className="pt-10 space-y-8">
       <DashboardPageHeader
         title="Dashboard"
         description="Welcome to the dashboard!"
@@ -35,6 +37,16 @@ const DashboardPage: React.FC = () => {
           value="Location XXX"
           icon={<Waypoints size={36} />}
         />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="col-span-2">
+          <CustomBarChart />
+        </div>
+
+        <div className="col-span-1 w-full">
+          <CustomPieChart />
+        </div>
       </div>
     </div>
   );

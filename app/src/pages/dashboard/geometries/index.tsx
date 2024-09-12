@@ -17,7 +17,7 @@ const GeometriesPage: React.FC = () => {
           { href: "/dashboard", label: "Dashboard" },
           { label: "Geometries" },
         ]}
-        title="Users"
+        title="Geometries"
         description="Manage all geometries in the application."
       />
 

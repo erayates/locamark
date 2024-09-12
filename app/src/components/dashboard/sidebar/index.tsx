@@ -2,7 +2,7 @@
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
 import SidebarLinks from "./components/Links";
 import { useAuth } from "@/hooks/useAuth";
 import { AvatarImage } from "@radix-ui/react-avatar";
@@ -13,7 +13,7 @@ function Sidebar() {
 
   return (
     <div
-      className={`lg:!z-99 fixed shadow-xl !z-[99] bg-richBlack min-h-full w-[300px] transition-all md:!z-[99] xl:!z-0 xl:block`}
+      className={`lg:!z-99 fixed shadow-xl !z-[99] bg-richBlack min-h-full w-[300px] -translate-x-[120%] md:translate-x-[unset] transition-all md:!z-[99] xl:!z-0 xl:block`}
     >
       <div
         className={`h-[96.5vh] w-full overflow-hidden !rounded-lg border-zinc-200 p-4 dark:border-zinc-800 `}
@@ -21,7 +21,7 @@ function Sidebar() {
         <div className="flex h-full flex-col justify-between w-full">
           <div>
             <span className="absolute top-4 block cursor-pointer text-zinc-200 dark:text-white/40 xl:hidden">
-              asd
+              <Menu size={24} />
             </span>
             <div className={`mt-8 flex items-center justify-center`}>
               <img

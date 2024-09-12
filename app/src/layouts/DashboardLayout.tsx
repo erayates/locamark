@@ -11,7 +11,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       <Sidebar />
       <div className="h-full w-full dark:bg-zinc-950">
         <main
-          className={`mx-2.5 flex-none transition-all dark:bg-zinc-950 md:pr-2 xl:ml-[328px]`}
+          className={`mx-2.5 flex-none transition-all dark:bg-zinc-950 md:pr-2 md:ml-[328px]`}
         >
           {children}
         </main>
