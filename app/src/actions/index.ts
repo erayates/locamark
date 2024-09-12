@@ -33,7 +33,6 @@ export async function _getById(id: number) {
 }
 
 export async function _create(geometry: IGeometry) {
-  console.log(geometry);
   try {
     const response = await axios.post(`${API_BASEURL}/Geometry`, geometry, {
       headers: {

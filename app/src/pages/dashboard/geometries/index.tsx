@@ -7,7 +7,7 @@ import Loader from "@/components/ui/loader";
 import ErrorComponent from "@/components/ErrorComponent";
 import DashboardPageHeader from "@/components/dashboard/page-header";
 
-const UsersPage: React.FC = () => {
+const GeometriesPage: React.FC = () => {
   const { data, isLoading, isError } = useFetch(_getAllUsers);
 
   return (
@@ -15,10 +15,10 @@ const UsersPage: React.FC = () => {
       <DashboardPageHeader
         breadcrumbItems={[
           { href: "/dashboard", label: "Dashboard" },
-          { label: "Users" },
+          { label: "Geometries" },
         ]}
         title="Users"
-        description="Manage all users in the application."
+        description="Manage all geometries in the application."
       />
 
       {isError && (
@@ -35,4 +35,4 @@ const UsersPage: React.FC = () => {
   );
 };
 
-export default UsersPage;
+export default GeometriesPage;

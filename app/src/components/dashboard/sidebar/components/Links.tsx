@@ -22,11 +22,11 @@ const links: Link[] = [
     icon: <UsersRound />,
     href: "/dashboard/users",
   },
-  {
-    title: "Settings",
-    icon: <Settings />,
-    href: "/dashboard/settings",
-  },
+  // {
+  //   title: "Settings",
+  //   icon: <Settings />,
+  //   href: "/dashboard/settings",
+  // },
 ];
 
 const SidebarLinks: React.FC = () => {

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { AxiosResponse } from "axios";
 
 interface FetchState<T> {
   data: T | null;
@@ -6,11 +7,10 @@ interface FetchState<T> {
   isError: string | null;
 }
 
-type Fetcher<T> = () => Promise<{ data: T; success: boolean }>;
+type Fetcher<T> = () => Promise<AxiosResponse<T>>;
 
-// Custom hook for fetching data
 export function useFetch<T>(fetcher: Fetcher<T>): FetchState<T> {
-  const [fetchState, setFetchState] = useState<FetchState<T>>({
+  const [state, setState] = useState<FetchState<T>>({
     data: null,
     isLoading: true,
     isError: null,
@@ -18,26 +18,26 @@ export function useFetch<T>(fetcher: Fetcher<T>): FetchState<T> {
 
   useEffect(() => {
     const fetchData = async () => {
-      setFetchState({ data: null, isLoading: true, isError: null });
+      setState({ data: null, isLoading: true, isError: null });
 
       try {
         const response = await fetcher();
-        if (response.success) {
-          setFetchState({
+        if (response.status >= 200 && response.status < 300) {
+          setState({
             data: response.data,
             isLoading: false,
             isError: null,
           });
         } else {
-          setFetchState({
+          setState({
             data: null,
             isLoading: false,
             isError: "Failed to fetch data",
           });
         }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (err) {
-        setFetchState({
+      } catch (error) {
+        console.error("Fetch error:", error);
+        setState({
           data: null,
           isLoading: false,
           isError: "An error occurred while fetching data",
@@ -48,5 +48,5 @@ export function useFetch<T>(fetcher: Fetcher<T>): FetchState<T> {
     fetchData();
   }, [fetcher]);
 
-  return fetchState;
+  return state;
 }

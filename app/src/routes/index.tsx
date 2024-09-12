@@ -9,6 +9,7 @@ import DashboardLayout from "@/layouts/DashboardLayout";
 import UsersPage from "@/pages/dashboard/users";
 import { Outlet } from "react-router-dom";
 import NotFound from "@/not-found";
+import GeometriesPage from "@/pages/dashboard/geometries";
 
 export const router = createBrowserRouter([
   {
@@ -33,8 +34,9 @@ export const router = createBrowserRouter([
           </DashboardLayout>
         ),
         children: [
-          { path: "", element: <DashboardPage /> }, // Render DashboardPage by default
-          { path: "users", element: <UsersPage /> }, // UsersPage as a child route
+          { path: "", element: <DashboardPage /> },
+          { path: "users", element: <UsersPage /> },
+          { path: "geometries", element: <GeometriesPage /> },
         ],
       },
       { path: "*", element: <NotFound /> },
