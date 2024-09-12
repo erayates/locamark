@@ -1,4 +1,4 @@
-import { Settings, UsersRound, Waypoints } from "lucide-react";
+import { LayoutGrid, Settings, UsersRound, Waypoints } from "lucide-react";
 
 type Link = {
   title: string;
@@ -8,6 +8,11 @@ type Link = {
 
 const links: Link[] = [
   {
+    title: "Dashboard",
+    icon: <LayoutGrid />,
+    href: "/dashboard",
+  },
+  {
     title: "Geometries",
     icon: <Waypoints />,
     href: "/dashboard/geometries",
@@ -15,7 +20,7 @@ const links: Link[] = [
   {
     title: "Users",
     icon: <UsersRound />,
-    href: "/dashboard/projects",
+    href: "/dashboard/users",
   },
   {
     title: "Settings",
@@ -40,7 +45,9 @@ const SidebarLinks: React.FC = () => {
                 >
                   {link.icon}
                 </div>
-                <p className={`mr-auto text-sm  text-white group-hover:text-richBlack dark:text-zinc-950`}>
+                <p
+                  className={`mr-auto text-sm  text-white group-hover:text-richBlack dark:text-zinc-950`}
+                >
                   {link.title}
                 </p>
               </div>

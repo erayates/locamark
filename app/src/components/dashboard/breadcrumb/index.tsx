@@ -1,7 +1,4 @@
-"use client";
-
 import * as React from "react";
-
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -43,21 +40,13 @@ const ResponsiveBreadcrumb: React.FC<ResponsiveBreadcrumbProps> = ({
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const location = useLocation();
+  const currentPath = location.pathname;
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
-        {location.pathname !== items[0].href && (
-          <BreadcrumbItem>
-            <BreadcrumbLink href={items[0].href}>
-              {items[0].label}
-            </BreadcrumbLink>
-            <BreadcrumbSeparator />
-          </BreadcrumbItem>
-        )}
-
         {items.length > ITEMS_TO_DISPLAY ? (
-          <>
+          <React.Fragment>
             <BreadcrumbItem>
               {isDesktop ? (
                 <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -108,11 +97,13 @@ const ResponsiveBreadcrumb: React.FC<ResponsiveBreadcrumbProps> = ({
               )}
             </BreadcrumbItem>
             <BreadcrumbSeparator />
-          </>
+          </React.Fragment>
         ) : null}
+
+        {/* Render the last breadcrumb item(s) */}
         {items.slice(-ITEMS_TO_DISPLAY + 1).map((item, index) => (
           <BreadcrumbItem key={index}>
-            {item.href ? (
+            {item.href && item.href !== currentPath ? (
               <>
                 <BreadcrumbLink
                   asChild

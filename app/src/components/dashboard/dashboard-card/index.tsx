@@ -1,38 +1,25 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface DashboardCardProps {
   title: string;
   value: string;
   icon: React.ReactNode;
-  size?: "default" | "sm";
 }
 
-const DashboardCard = ({
-  title,
-  value,
-  icon,
-  size = "default",
-}: DashboardCardProps) => {
+const DashboardCard = ({ title, value, icon }: DashboardCardProps) => {
   return (
-    <Card className="w-auto grow">
-      <CardContent className="p-0 m-0 grid grid-cols-6 items-center space-x-4 h-full">
-        <div className="bg-[#00af90] col-span-1 h-full rounded-l-xl flex items-center justify-center p-2 text-white">
-          {icon}
-        </div>
-        <div className="col-span-5 py-4">
-          <p className="text-[#00828e] font-semibold text-2xl dark:text-white">
-            {title}
-          </p>
-          <p
-            className={cn(
-              "text-[#00828e]/25 dark:text-white",
-              size === "sm" ? "text-2xl" : "text-5xl"
-            )}
-          >
-            {value.length > 10 ? `${value.slice(0, 10)}...` : value}
-          </p>
-        </div>
+    <Card className="w-auto grow bg-gradient-to-br from-purple-500 to-indigo-600">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 text-white">
+        <CardTitle className="text-lg font-medium text-white">
+          {title}
+        </CardTitle>
+        {icon}
+      </CardHeader>
+      <CardContent>
+        <div className="text-2xl font-bold text-white">{value}</div>
+        <p className="text-xs text-purple-100 mt-1">
+          12% increase from last month
+        </p>
       </CardContent>
     </Card>
   );

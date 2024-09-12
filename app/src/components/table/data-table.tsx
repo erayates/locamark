@@ -65,7 +65,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className="border-none">
       {/* Search Input */}
-      <div className="flex items-center justify-end py-4">
+      <div className="flex items-center justify-start py-4">
         <Input
           placeholder="Search a geometry..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
