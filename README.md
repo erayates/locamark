@@ -71,6 +71,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 * ![ReactHookForm][RHF]
 * ![OpenlayersLib][Openlayers]
 * ![.NETCore][.NET]
+* ![Postgresql][Postgres]
 
   
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -243,6 +244,7 @@ Project Link: [https://github.com/erayates/locamark](https://github.com/erayates
 [React-url]: https://reactjs.org/
 [Shadcn]: https://img.shields.io/badge/ShadCn%20UI-20232A?style=for-the-badge&logo=shadcn&logoColor=61DAFB 
 [Zod]: https://img.shields.io/badge/Zod-20232A?style=for-the-badge&logo=shadcn&logoColor=61DAFB
+[Postgres]: https://img.shields.io/badge/PostgreSQL-20232A?style=for-the-badge&logo=shadcn&logoColor=61DAFB
 [RHF]: https://img.shields.io/badge/React%20Hook%20Form-20232A?style=for-the-badge&logo=shadcn&logoColor=61DAFB
 [Openlayers]: https://img.shields.io/badge/Openlayers-20232A?style=for-the-badge&logo=shadcn&logoColor=61DAFB
 [.NET]: https://img.shields.io/badge/.Net%20Core%20Web%20Api-20232A?style=for-the-badge&logo=shadcn&logoColor=61DAFB
