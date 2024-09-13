@@ -6,9 +6,9 @@ const getAuthHeader = () => {
   return { Authorization: `Bearer ${token}` };
 };
 
-export async function _getAllUsers() {
+export async function _getAllUsersGeometries() {
   try {
-    const response = await axios.get(`${API_BASEURL}/Admin/users`, {
+    const response = await axios.get(`${API_BASEURL}/Admin/geometries`, {
       headers: getAuthHeader(),
     });
 
@@ -19,9 +19,9 @@ export async function _getAllUsers() {
   }
 }
 
-export async function _getById(id: number) {
+export async function _getGeometryById(id: number) {
   try {
-    const response = await axios.get(`${API_BASEURL}/Geometry/${id}`, {
+    const response = await axios.get(`${API_BASEURL}/Admin/geometries/${id}`, {
       headers: getAuthHeader(),
     });
     return response.data;
@@ -30,6 +30,19 @@ export async function _getById(id: number) {
     throw error;
   }
 }
+
+export async function _deleteGeometryById(id: number) {
+    try {
+      const response = await axios.delete(`${API_BASEURL}/Admin/geometries/${id}`, {
+        headers: getAuthHeader(),
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Fetch error:", error);
+      throw error;
+    }
+  }
+  
 
 // export async function _create(geometry: IGeometry) {
 //   console.log(geometry);
@@ -66,14 +79,3 @@ export async function _getById(id: number) {
 //   }
 // }
 
-export async function _delete(id: number) {
-  try {
-    const response = await axios.delete(`${API_BASEURL}/Geometry/${id}`, {
-      headers: getAuthHeader(),
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Fetch error:", error);
-    throw error;
-  }
-}

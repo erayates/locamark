@@ -1,10 +1,9 @@
-import { IGeometry } from "@/types";
+import { IUser } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import UsersTableActions from "./actions";
-import { Badge } from "@/components/ui/badge";
 
 // Define columns including the actions column
-export const UserTableColumns: ColumnDef<IGeometry>[] = [
+export const UserTableColumns: ColumnDef<IUser>[] = [
   {
     accessorKey: "id",
     header: "ID",
@@ -24,19 +23,10 @@ export const UserTableColumns: ColumnDef<IGeometry>[] = [
   },
 
   {
-    accessorKey: "twoFactorEnabled",
-    header: "Two Factor",
-    cell: ({ getValue }) => {
-      const isTwoFactorEnabled = getValue() as string;
-      return <Badge>{isTwoFactorEnabled ? "Enabled" : "Disabled"}</Badge>;
-    },
-  },
-
-  {
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const rowData = row.original; // Assuming IGeometry has an id field
+      const rowData = row.original as { id: string; userName: string; email: string };
       return <UsersTableActions rowData={rowData} />;
     },
   },

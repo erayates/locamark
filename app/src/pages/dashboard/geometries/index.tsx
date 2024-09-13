@@ -1,14 +1,15 @@
-import { _getAllUsers } from "@/actions/users";
-import { UsersTable } from "@/components/dashboard/table/users-table/data-table";
 import { useFetch } from "@/hooks/useFetch";
 
-import { UserTableColumns } from "@/components/dashboard/table/users-table/columns";
 import Loader from "@/components/ui/loader";
 import ErrorComponent from "@/components/ErrorComponent";
 import DashboardPageHeader from "@/components/dashboard/page-header";
+import { GeometriesTable } from "@/components/dashboard/table/geometries-table/data-table";
+import { GeometriesTableColumns } from "@/components/dashboard/table/geometries-table/columns";
+import { _getAllUsersGeometries } from "./actions";
 
 const GeometriesPage: React.FC = () => {
-  const { data, isLoading, isError } = useFetch(_getAllUsers);
+  const { data, isLoading, isError } = useFetch(_getAllUsersGeometries);
+
 
   return (
     <div className="pt-10">
@@ -29,7 +30,7 @@ const GeometriesPage: React.FC = () => {
       )}
       {isLoading && <Loader />}
       {!isLoading && !isError && (
-        <UsersTable columns={UserTableColumns} data={data} />
+        <GeometriesTable columns={GeometriesTableColumns} data={data} />
       )}
     </div>
   );

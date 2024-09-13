@@ -9,7 +9,7 @@ import { AvatarImage } from "@radix-ui/react-avatar";
 //   } ${props?.open ? "" : "-translate-x-[120%] xl:translate-x-[unset]"}`}
 
 function Sidebar() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <div
@@ -58,7 +58,7 @@ function Sidebar() {
                 className="ml-auto flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full p-0 text-center text-sm font-medium hover:dark:text-white"
                 type="submit"
               >
-                <LogOut size={16} />
+                <LogOut size={16} onClick={logout} />
               </Button>
             </div>
           </div>

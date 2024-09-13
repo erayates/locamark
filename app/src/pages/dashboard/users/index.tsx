@@ -1,4 +1,3 @@
-import { _getAllUsers } from "@/actions/users";
 import { UsersTable } from "@/components/dashboard/table/users-table/data-table";
 import { useFetch } from "@/hooks/useFetch";
 
@@ -6,11 +5,10 @@ import { UserTableColumns } from "@/components/dashboard/table/users-table/colum
 import Loader from "@/components/ui/loader";
 import ErrorComponent from "@/components/ErrorComponent";
 import DashboardPageHeader from "@/components/dashboard/page-header";
+import { _getAllUsers } from "./actions";
 
 const UsersPage: React.FC = () => {
   const { data, isLoading, isError } = useFetch(_getAllUsers);
-
-  console.log(data);
 
   return (
     <div className="pt-10">

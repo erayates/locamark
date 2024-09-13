@@ -58,7 +58,7 @@ export default function MapPopup() {
   const handleManuelUpdate = () => {
     const { id, wkt, name } = state.mapPopup ?? {};
     const content = { id: id ?? 0, wkt: wkt ?? "", name: name ?? "" };
-    openModal("update", content);
+    openModal("update", content, "Geometry");
   };
 
   return (

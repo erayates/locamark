@@ -1,25 +1,27 @@
 import React from "react";
 import { Pencil } from "lucide-react";
 
-import { useModalContext } from "@/hooks/useModalContext";
-import { _getById } from "@/actions";
-import { IGeometry } from "@/types";
-
 import { DeleteDialog } from "@/components/DeleteDialog";
 import { Button } from "@/components/ui/button";
+import { _getUserById } from "@/pages/dashboard/users/actions";
+import { useModalContext } from "@/hooks/useModalContext";
 
 type UsersTableActionsProps = {
-  rowData: any;
+  rowData: {
+    id: string;
+    userName: string;
+    email: string;
+  };
 };
 
 const UsersTableActions: React.FC<UsersTableActionsProps> = ({ rowData }) => {
-  //   const { openModal, closeModal } = useModalContext();
-  //   const { toast } = useToast();
+  const { openModal, modals } = useModalContext();
 
   const onUpdateButtonClick = async () => {
-    // const response = await _getById(rowData.id ?? 0);
-    // if (!response.success) return;
-    // openModal("update", response.data);
+    const response = await _getUserById(rowData.id);
+    if (!response.success) return;
+    openModal("update", response.data, "User");
+    console.log(modals.update);
   };
 
   return (
@@ -27,7 +29,7 @@ const UsersTableActions: React.FC<UsersTableActionsProps> = ({ rowData }) => {
       <Button variant="outline" onClick={onUpdateButtonClick}>
         <Pencil size={16} />
       </Button>
-      <DeleteDialog elementId={rowData.id ?? 0} variantOutline={true} />
+      <DeleteDialog elementId={rowData.id} variantOutline={true} type="User" />
     </div>
   );
 };

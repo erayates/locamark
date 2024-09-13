@@ -28,7 +28,7 @@ const TableActions: React.FC<TableActionsProps> = ({ rowData }) => {
   const onUpdateButtonClick = async () => {
     const response = await _getById(rowData.id ?? 0);
     if (!response.success) return;
-    openModal("update", response.data);
+    openModal("update", response.data, "Geometry");
   };
 
   const onDragAndDropUpdateButtonClick = () => {

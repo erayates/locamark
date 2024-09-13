@@ -4,14 +4,13 @@ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import CustomInput from "../form-elements/custom-input";
 import { useModalContext } from "@/hooks/useModalContext";
-import { useToast } from "../ui/use-toast";
-import { _update } from "@/actions";
-import { useMapContext } from "@/hooks/useMapContext";
+import CustomInput from "@/components/form-elements/custom-input";
+import { useToast } from "@/components/ui/use-toast";
+import { _updateUser } from "@/pages/dashboard/users/actions";
 
 const FormSchema = z.object({
-  name: z
+  userName: z
     .string({
       required_error: "Name is required.",
     })
@@ -19,38 +18,45 @@ const FormSchema = z.object({
       message: "Name is required.",
     }),
 
-  wkt: z.string({ required_error: "WKT is required." }).min(1, {
-    message: "WKT is required.",
-  }),
+  email: z
+    .string({
+      required_error: "Email is required.",
+    })
+    .email({
+      message: "Please enter a valid email address.",
+    }),
 });
 
-export function UpdateForm() {
+export function UpdateUserForm() {
   const { modals, closeModal } = useModalContext();
-  const { fetchGeometries, setMapPopup, state } = useMapContext();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: modals.update.data ?? {},
+    defaultValues:
+      (modals.update.data as
+        | { userName?: string; email?: string }
+        | undefined) ?? {},
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const { wkt, name } = data;
-      const updateData = { wkt, name };
+      const { email, userName } = data;
+      const updateData = { email, userName };
 
-      const response = await _update(modals.update.data?.id ?? 0, updateData);
+      const response = await _updateUser(
+        modals.update.data?.id ?? 0,
+        updateData
+      );
+
       if (response.success) {
         closeModal("update");
         toast({
           title: "Success!",
-          description: "Geometry updated successfully.",
+          description: "User updated successfully.",
           variant: "success",
         });
 
-        setMapPopup(null);
-        state.overlay?.setPosition(undefined);
-        fetchGeometries();
         return;
       }
 
@@ -72,12 +78,8 @@ export function UpdateForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <CustomInput name="name" label="Name" placeholder="E.g. Istanbul" />
-        <CustomInput
-          name="wkt"
-          label="WKT"
-          placeholder="E.g. POINT((38.547478 40.68568))"
-        />
+        <CustomInput name="userName" label="Username" placeholder="" />
+        <CustomInput name="email" label="Email" placeholder="" />
         <Button
           type="submit"
           className="w-full bg-green-600 hover:bg-green-700"

@@ -14,20 +14,40 @@ import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { useToast } from "./ui/use-toast";
 import { useMapContext } from "@/hooks/useMapContext";
+import { _deleteUser } from "@/pages/dashboard/users/actions";
 
 export function DeleteDialog({
   elementId,
   variantOutline,
+  type,
 }: {
-  elementId: number;
+  elementId: number | string;
   variantOutline?: boolean;
+  type?: "Geometry" | "User";
 }) {
   const { toast } = useToast();
   const { setMapPopup, state, fetchGeometries } = useMapContext();
 
   const handleDelete = async () => {
     try {
-      const response = await _delete(elementId);
+      if (type === "User") {
+        const response = await _deleteUser(elementId as string);
+        if (response.success) {
+          toast({
+            title: "Success!",
+            description: "User deleted successfully.",
+            variant: "success",
+          });
+          return;
+        }
+
+        toast({
+          title: "Error!",
+          description: "Something went wrong! Please try again.",
+          variant: "destructive",
+        });
+      }
+      const response = await _delete(elementId as number);
       if (response.success) {
         toast({
           title: "Success!",

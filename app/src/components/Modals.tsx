@@ -7,6 +7,7 @@ import { UpdateDialog } from "./UpdateDialog";
 import { DataTable } from "./table/data-table";
 import { columns } from "./table/columns";
 import { useMapContext } from "@/hooks/useMapContext";
+import { UpdateUserForm } from "./forms/update/user-form";
 
 const Modals: React.FC = () => {
   const { modals, closeModal } = useModalContext();
@@ -22,17 +23,18 @@ const Modals: React.FC = () => {
       <ResponsiveDialog
         isOpen={modals.update.isOpen}
         setIsOpen={() => handleModalClose("update")}
-        title="Update Geometry"
-        description="Fill out the form below to update a geometry."
+        title={`Update ${modals.update.type}`}
+        description={`Fill out the form below to update a ${modals.update.type?.toLowerCase()}`}
       >
-        <UpdateForm />
+        {modals.update.type === "User" && <UpdateUserForm />}
+        {modals.update.type === "Geometry" && <UpdateForm />}
       </ResponsiveDialog>
 
       <ResponsiveDialog
         isOpen={modals.create.isOpen}
         setIsOpen={() => handleModalClose("create")}
-        title="Create Geometry"
-        description="Fill out the form below to create a geometry."
+        title={`Create ${modals.create.type}`}
+        description={`Fill out the form below to create a ${modals.update.type?.toLowerCase()}`}
       >
         <CreateForm />
       </ResponsiveDialog>

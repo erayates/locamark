@@ -20,7 +20,7 @@ const DashboardPageHeader: React.FC<DashboardPageHeaderProps> = ({
         <h1 className="text-3xl font-semibold text-zinc-900 dark:text-white">
           {title}
         </h1>
-        <p className="text-muted-foreground text-sm">{description}</p>
+        <p className="text-muted-foreground text-xs">{description}</p>
       </div>
 
       <h2 className="text-2xl font-semibold text-muted-foreground dark:text-white">

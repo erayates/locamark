@@ -20,11 +20,12 @@ export function useFetch<T>(fetcher: Fetcher<T>): FetchState<T> {
     const fetchData = async () => {
       setState({ data: null, isLoading: true, isError: null });
 
+
       try {
         const response = await fetcher();
         if (response.status >= 200 && response.status < 300) {
           setState({
-            data: response.data,
+            data: response.data.data,
             isLoading: false,
             isError: null,
           });
