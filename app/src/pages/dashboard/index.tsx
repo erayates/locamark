@@ -1,10 +1,43 @@
+import React, { useEffect, useState } from "react";
 import { CustomPieChart } from "@/components/dashboard/charts/pie-chart";
 import { CustomBarChart } from "@/components/dashboard/charts/bar-chart";
 import DashboardCard from "@/components/dashboard/dashboard-card";
 import DashboardPageHeader from "@/components/dashboard/page-header";
 import { UsersRound, Waypoints } from "lucide-react";
+import { _getAllUsers } from "./users/actions";
+import { _getAllUsersGeometries } from "./geometries/actions";
 
 const DashboardPage: React.FC = () => {
+  const [cardsData, setCardsData] = useState({
+    totalUsers: "Loading...",
+    latestUser: "Loading...",
+    totalGeometries: "Loading...",
+    latestGeometry: "Loading...",
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const usersResponse = await _getAllUsers();
+        const users = usersResponse.data.data;
+
+        const geometriesResponse = await _getAllUsersGeometries();
+        const geometries = geometriesResponse.data.data;
+
+        setCardsData({
+          totalUsers: users.length,
+          latestUser: users[users.length - 1]?.name || "N/A",
+          totalGeometries: geometries.length,
+          latestGeometry: geometries[geometries.length - 1]?.name || "N/A",
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="pt-10 space-y-8">
       <DashboardPageHeader
@@ -13,28 +46,28 @@ const DashboardPage: React.FC = () => {
         breadcrumbItems={[{ label: "Dashboard" }]}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-10  ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
         <DashboardCard
           title="Total Users"
-          value="100"
+          value={cardsData.totalUsers}
           icon={<UsersRound size={36} />}
         />
 
         <DashboardCard
           title="Latest User"
-          value="eates"
-          icon={<Waypoints size={36} />}
+          value={cardsData.latestUser}
+          icon={<UsersRound size={36} />}
         />
 
         <DashboardCard
           title="Total Geometries"
-          value="100"
+          value={cardsData.totalGeometries}
           icon={<Waypoints size={36} />}
         />
 
         <DashboardCard
           title="Latest Geometry"
-          value="Location XXX"
+          value={cardsData.latestGeometry}
           icon={<Waypoints size={36} />}
         />
       </div>

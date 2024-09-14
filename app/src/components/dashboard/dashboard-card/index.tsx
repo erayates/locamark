@@ -17,9 +17,9 @@ const DashboardCard = ({ title, value, icon }: DashboardCardProps) => {
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold text-white">{value}</div>
-        <p className="text-xs text-purple-100 mt-1">
+        {/* <p className="text-xs text-purple-100 mt-1">
           12% increase from last month
-        </p>
+        </p> */}
       </CardContent>
     </Card>
   );
