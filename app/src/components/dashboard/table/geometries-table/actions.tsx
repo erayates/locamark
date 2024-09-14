@@ -9,6 +9,7 @@ import {
 } from "@/pages/dashboard/geometries/actions";
 import { IGeometry } from "@/types";
 import { useModalContext } from "@/hooks/useModalContext";
+import { useNavigate } from "react-router-dom";
 
 type GeometriesTableActionProps = {
   rowData: IGeometry;
@@ -18,6 +19,12 @@ const GeometriesTableActions: React.FC<GeometriesTableActionProps> = ({
   rowData,
 }) => {
   const { openModal } = useModalContext();
+
+  const navigate = useNavigate();
+
+  const refresh = () => {
+    navigate("/dashboard/geometries", { replace: true });
+  };
 
   const onUpdateButtonClick = async () => {
     const response = await _getGeometryById(rowData.id ?? 0);
@@ -34,6 +41,7 @@ const GeometriesTableActions: React.FC<GeometriesTableActionProps> = ({
         variantOutline={true}
         handleDelete={async () => _deleteGeometryById(rowData.id ?? 0)}
         type="Geometry"
+        refresh={refresh}
       />
     </div>
   );

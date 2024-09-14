@@ -18,8 +18,10 @@ export function DeleteDialog({
   variantOutline,
   type,
   handleDelete,
+  refresh,
 }: {
   variantOutline?: boolean;
+  refresh?: () => void;
   type?: "Geometry" | "User";
   handleDelete: () => Promise<{
     statusCode: number;
@@ -32,7 +34,7 @@ export function DeleteDialog({
 
   const onDelete = async () => {
     try {
-      const response = await handleDelete(); // Await the promise
+      const response = await handleDelete();
       if (response.success) {
         toast({
           title: "Success!",
@@ -46,6 +48,9 @@ export function DeleteDialog({
           fetchGeometries();
         }
 
+        if (refresh) {
+          refresh();
+        }
         return;
       }
 
