@@ -11,6 +11,7 @@ import { _update } from "@/actions";
 import { useMapContext } from "@/hooks/useMapContext";
 import { _updateGeometry } from "@/pages/dashboard/geometries/actions";
 import { IGeometry } from "@/types";
+import { useNavigate } from "react-router-dom";
 
 const FormSchema = z.object({
   name: z
@@ -32,6 +33,7 @@ export function UpdateForm() {
   const { modals, closeModal } = useModalContext();
   const { fetchGeometries, setMapPopup, state } = useMapContext();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
@@ -50,16 +52,20 @@ export function UpdateForm() {
           )
         : await _update((modals.update.data as IGeometry)?.id ?? 0, updateData);
 
-      console.log(response);
-
       if (response.success) {
-        closeModal("update");
         toast({
           title: "Success!",
           description: "Geometry updated successfully.",
           variant: "success",
         });
 
+        if (modals.update.isAdmin) {
+          navigate("/dashboard/geometries", { replace: true });
+          closeModal("update");
+          return;
+        }
+        
+        closeModal("update");
         setMapPopup(null);
         state.overlay?.setPosition(undefined);
         fetchGeometries();

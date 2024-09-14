@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { AxiosResponse } from "axios";
+import { IApiResponse } from "@/types";
 
 interface FetchState<T> {
   data: T | null;
@@ -7,14 +8,7 @@ interface FetchState<T> {
   isError: string | null;
 }
 
-interface ApiResponse<T> {
-  data: T;
-  message?: string;
-  statusCode: number;
-  success: boolean;
-}
-
-type Fetcher<T> = () => Promise<AxiosResponse<ApiResponse<T>>>;
+type Fetcher<T> = () => Promise<AxiosResponse<IApiResponse<T>>>;
 
 export function useFetch<T>(fetcher: Fetcher<T>): FetchState<T> {
   const [state, setState] = useState<FetchState<T>>({

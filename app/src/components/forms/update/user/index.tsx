@@ -8,6 +8,7 @@ import { useModalContext } from "@/hooks/useModalContext";
 import CustomInput from "@/components/form-elements/custom-input";
 import { useToast } from "@/components/ui/use-toast";
 import { _updateUser } from "@/pages/dashboard/users/actions";
+import { useNavigate } from "react-router-dom";
 
 const FormSchema = z.object({
   userName: z
@@ -30,6 +31,7 @@ const FormSchema = z.object({
 export function UpdateUserForm() {
   const { modals, closeModal } = useModalContext();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -57,6 +59,7 @@ export function UpdateUserForm() {
           variant: "success",
         });
 
+        navigate("/dashboard/users", { replace: true });
         return;
       }
 

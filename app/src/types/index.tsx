@@ -9,3 +9,10 @@ export interface IUser {
   email: string;
   userName: string;
 }
+
+export interface IApiResponse<T> {
+  data: T;
+  message?: string;
+  statusCode: number;
+  success: boolean;
+}

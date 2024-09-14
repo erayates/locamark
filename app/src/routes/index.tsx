@@ -10,6 +10,8 @@ import UsersPage from "@/pages/dashboard/users";
 import { Outlet } from "react-router-dom";
 import NotFound from "@/not-found";
 import GeometriesPage from "@/pages/dashboard/geometries";
+import { _getAllUsers } from "@/pages/dashboard/users/actions";
+import { _getAllUsersGeometries } from "@/pages/dashboard/geometries/actions";
 
 export const router = createBrowserRouter([
   {
@@ -35,8 +37,12 @@ export const router = createBrowserRouter([
         ),
         children: [
           { path: "", element: <DashboardPage /> },
-          { path: "users", element: <UsersPage /> },
-          { path: "geometries", element: <GeometriesPage /> },
+          { path: "users", element: <UsersPage />, loader: _getAllUsers },
+          {
+            path: "geometries",
+            element: <GeometriesPage />,
+            loader: _getAllUsersGeometries,
+          },
         ],
       },
       { path: "*", element: <NotFound /> },

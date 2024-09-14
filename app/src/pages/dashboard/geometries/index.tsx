@@ -1,15 +1,22 @@
-import { useFetch } from "@/hooks/useFetch";
-
+// import { useFetch } from "@/hooks/useFetch";
 import Loader from "@/components/ui/loader";
 import ErrorComponent from "@/components/ErrorComponent";
 import DashboardPageHeader from "@/components/dashboard/page-header";
 import { GeometriesTable } from "@/components/dashboard/table/geometries-table/data-table";
 import { GeometriesTableColumns } from "@/components/dashboard/table/geometries-table/columns";
-import { _getAllUsersGeometries } from "./actions";
-import { IGeometry } from "@/types";
+// import { _getAllUsersGeometries } from "./actions";
+import { IApiResponse, IGeometry } from "@/types";
+import { useLoaderData, useNavigation } from "react-router-dom";
+import { AxiosResponse } from "axios";
 
 const GeometriesPage: React.FC = () => {
-  const { data, isLoading, isError } = useFetch(_getAllUsersGeometries);
+  // const { data, isLoading, isError } = useFetch(_getAllUsersGeometries);
+  const response = useLoaderData() as AxiosResponse<IApiResponse<IGeometry[]>>;
+  const { data: geometries, success } = response.data;
+
+  const navigation = useNavigation();
+
+  const isLoading = navigation.state === "loading";
 
   return (
     <div className="pt-10">
@@ -22,18 +29,15 @@ const GeometriesPage: React.FC = () => {
         description="Manage all geometries in the application."
       />
 
-      {isError && (
+      {!isLoading && !success && (
         <ErrorComponent
           title="Something went wrong!"
           message="Something went wrong when trying to fetch data. Please try again later and contact us."
         />
       )}
       {isLoading && <Loader />}
-      {!isLoading && !isError && (
-        <GeometriesTable
-          columns={GeometriesTableColumns}
-          data={data as IGeometry[]}
-        />
+      {!isLoading && success && (
+        <GeometriesTable columns={GeometriesTableColumns} data={geometries} />
       )}
     </div>
   );
