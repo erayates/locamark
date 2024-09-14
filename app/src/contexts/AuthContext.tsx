@@ -5,14 +5,21 @@ import axios from "axios";
 import { _login, _register } from "@/actions/auth";
 import { useToast } from "@/components/ui/use-toast";
 import { UserProfile } from "@/types/auth";
+import { jwtDecode } from "jwt-decode";
 
 type UserContextType = {
   user: UserProfile | null;
   token: string | null;
+  isAdmin: boolean;
   registerUser: (email: string, username: string, password: string) => void;
   loginUser: (username: string, password: string) => void;
   logout: () => void;
   isLoggedIn: () => boolean;
+};
+
+type CustomJwtPayload = {
+  role: string;
+  [key: string]: string | number;
 };
 
 type Props = { children: React.ReactNode };
@@ -26,6 +33,7 @@ export const AuthProvider = ({ children }: Props) => {
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isReady, setIsReady] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const { toast } = useToast();
 
@@ -35,6 +43,9 @@ export const AuthProvider = ({ children }: Props) => {
     if (user && token) {
       setUser(JSON.parse(user));
       setToken(token);
+
+      const decodedToken: CustomJwtPayload = jwtDecode(token);
+      setIsAdmin(decodedToken.role === "Admin" && true);
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
     }
 
@@ -57,6 +68,10 @@ export const AuthProvider = ({ children }: Props) => {
         localStorage.setItem("user", JSON.stringify(userObj));
         setToken(response.data.token);
         setUser(userObj);
+
+        const decodedToken: CustomJwtPayload = jwtDecode(response.data.token);
+        setIsAdmin(decodedToken.role === "Admin" && true);
+
         toast({
           title: "SUCCESS!",
           description: "You registered successfully!",
@@ -86,6 +101,10 @@ export const AuthProvider = ({ children }: Props) => {
         localStorage.setItem("user", JSON.stringify(userObj));
         setToken(response.data.token);
         setUser(userObj);
+
+        const decodedToken: CustomJwtPayload = jwtDecode(response.data.token);
+        setIsAdmin(decodedToken.role === "Admin" && true);
+
         toast({
           title: "SUCCESS!",
           description: "You logged in successfully!",
@@ -116,7 +135,15 @@ export const AuthProvider = ({ children }: Props) => {
 
   return (
     <AuthContext.Provider
-      value={{ loginUser, user, token, logout, isLoggedIn, registerUser }}
+      value={{
+        loginUser,
+        user,
+        token,
+        logout,
+        isLoggedIn,
+        registerUser,
+        isAdmin,
+      }}
     >
       {isReady ? children : null}
     </AuthContext.Provider>
