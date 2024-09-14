@@ -6,10 +6,10 @@ import DashboardPageHeader from "@/components/dashboard/page-header";
 import { GeometriesTable } from "@/components/dashboard/table/geometries-table/data-table";
 import { GeometriesTableColumns } from "@/components/dashboard/table/geometries-table/columns";
 import { _getAllUsersGeometries } from "./actions";
+import { IGeometry } from "@/types";
 
 const GeometriesPage: React.FC = () => {
   const { data, isLoading, isError } = useFetch(_getAllUsersGeometries);
-
 
   return (
     <div className="pt-10">
@@ -30,7 +30,10 @@ const GeometriesPage: React.FC = () => {
       )}
       {isLoading && <Loader />}
       {!isLoading && !isError && (
-        <GeometriesTable columns={GeometriesTableColumns} data={data} />
+        <GeometriesTable
+          columns={GeometriesTableColumns}
+          data={data as IGeometry[]}
+        />
       )}
     </div>
   );

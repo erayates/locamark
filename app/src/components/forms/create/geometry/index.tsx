@@ -12,6 +12,7 @@ import { _create } from "@/actions";
 import { RotateCcw } from "lucide-react";
 import { useToast } from "../../../ui/use-toast";
 import { useMapContext } from "@/hooks/useMapContext";
+import { IGeometry } from "@/types";
 
 const FormSchema = z.object({
   name: z
@@ -34,7 +35,7 @@ export function CreateForm() {
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: modals.create.data ?? {},
+    defaultValues: (modals.create.data as IGeometry) ?? {},
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {

@@ -29,8 +29,8 @@ export const UpdateDialog: React.FC = () => {
     try {
       setResponseLoading(true);
       const response = await _update(
-        modals.updateDialog.data?.id ?? 0,
-        modals.updateDialog?.data ?? ({} as IGeometry)
+        (modals.updateDialog.data as IGeometry)?.id ?? 0,
+        modals.updateDialog.data as IGeometry
       );
 
       if (response.success) {
@@ -88,8 +88,8 @@ export const UpdateDialog: React.FC = () => {
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            You are trying to update a geometry. A new position will be
-            set for this geometry if you continue.
+            You are trying to update a geometry. A new position will be set for
+            this geometry if you continue.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

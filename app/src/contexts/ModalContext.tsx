@@ -1,9 +1,9 @@
 import React, { createContext, useState, ReactNode } from "react";
-import { IGeometry } from "../types";
+import { IGeometry, IUser } from "../types";
 
 interface ModalData {
   isOpen: boolean;
-  data: IGeometry | null;
+  data: IGeometry | IUser | null;
   type?: "Geometry" | "User" | null;
   isAdmin?: boolean;
 }

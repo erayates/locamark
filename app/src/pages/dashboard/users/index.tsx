@@ -6,6 +6,7 @@ import Loader from "@/components/ui/loader";
 import ErrorComponent from "@/components/ErrorComponent";
 import DashboardPageHeader from "@/components/dashboard/page-header";
 import { _getAllUsers } from "./actions";
+import { IUser } from "@/types";
 
 const UsersPage: React.FC = () => {
   const { data, isLoading, isError } = useFetch(_getAllUsers);
@@ -29,7 +30,7 @@ const UsersPage: React.FC = () => {
       )}
       {isLoading && <Loader />}
       {!isLoading && !isError && (
-        <UsersTable columns={UserTableColumns} data={data} />
+        <UsersTable columns={UserTableColumns} data={data as IUser[]} />
       )}
     </div>
   );

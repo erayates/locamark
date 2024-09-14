@@ -10,6 +10,7 @@ import { useToast } from "../../../ui/use-toast";
 import { _update } from "@/actions";
 import { useMapContext } from "@/hooks/useMapContext";
 import { _updateGeometry } from "@/pages/dashboard/geometries/actions";
+import { IGeometry } from "@/types";
 
 const FormSchema = z.object({
   name: z
@@ -25,26 +26,31 @@ const FormSchema = z.object({
   }),
 });
 
+type FormValues = z.infer<typeof FormSchema>;
+
 export function UpdateForm() {
   const { modals, closeModal } = useModalContext();
   const { fetchGeometries, setMapPopup, state } = useMapContext();
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof FormSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
-    defaultValues: modals.update.data ?? {},
+    defaultValues: (modals.update.data as IGeometry) ?? {},
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: FormValues) {
     try {
       const { wkt, name } = data;
       const updateData = { wkt, name };
 
       const response = modals.update.isAdmin
-        ? await _updateGeometry(modals.update.data?.id ?? 0, updateData)
-        : await _update(modals.update.data?.id ?? 0, updateData);
+        ? await _updateGeometry(
+            (modals.update.data as IGeometry)?.id ?? 0,
+            updateData
+          )
+        : await _update((modals.update.data as IGeometry)?.id ?? 0, updateData);
 
-        console.log(response)
+      console.log(response);
 
       if (response.success) {
         closeModal("update");
@@ -70,8 +76,8 @@ export function UpdateForm() {
         title: "Error!",
         description: "Something went wrong! Please try again.",
         variant: "destructive",
-        onError: () => console.log("Error updating geo.:", error),
       });
+      console.log("Error updating geo.:", error);
     }
   }
 

@@ -45,7 +45,7 @@ export function UpdateUserForm() {
       const updateData = { email, userName };
 
       const response = await _updateUser(
-        modals.update.data?.id ?? 0,
+        modals.update.data?.id?.toString() ?? "",
         updateData
       );
 

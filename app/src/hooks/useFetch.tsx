@@ -7,7 +7,14 @@ interface FetchState<T> {
   isError: string | null;
 }
 
-type Fetcher<T> = () => Promise<AxiosResponse<T>>;
+interface ApiResponse<T> {
+  data: T;
+  message?: string;
+  statusCode: number;
+  success: boolean;
+}
+
+type Fetcher<T> = () => Promise<AxiosResponse<ApiResponse<T>>>;
 
 export function useFetch<T>(fetcher: Fetcher<T>): FetchState<T> {
   const [state, setState] = useState<FetchState<T>>({
@@ -19,7 +26,6 @@ export function useFetch<T>(fetcher: Fetcher<T>): FetchState<T> {
   useEffect(() => {
     const fetchData = async () => {
       setState({ data: null, isLoading: true, isError: null });
-
 
       try {
         const response = await fetcher();
