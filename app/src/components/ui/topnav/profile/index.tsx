@@ -7,11 +7,11 @@ import React from "react";
 import { Avatar } from "../../avatar";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Button } from "../../button";
-import { LogOutIcon } from "lucide-react";
+import { Layout, LogOutIcon } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
 const Profile: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, isAdmin } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -41,7 +41,24 @@ const Profile: React.FC = () => {
           </div>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent className="w-44"></DropdownMenuContent>
+        <DropdownMenuContent className="w-44 space-y-2 mr-4 bg-white rounded-xl p-2 block md:hidden">
+          {isAdmin && (
+            <Button asChild variant="outline" className="w-full">
+              <a href="/dashboard" className="space-x-2">
+                <Layout size={16} /> <span>Dashboard</span>
+              </a>
+            </Button>
+          )}
+
+          <Button
+            className="w-full space-x-2"
+            variant="outline"
+            onClick={handleLogout}
+          >
+            <LogOutIcon size={16} />
+            <span>Logout</span>
+          </Button>
+        </DropdownMenuContent>
       </DropdownMenu>
 
       <Button className="text-white hidden lg:block">

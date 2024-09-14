@@ -18,7 +18,7 @@ const TopNav: React.FC = () => {
             alt="Locamark Logo"
             className="mr-8"
           />
-          <div className="text-left flex flex-col justify-center pl-8">
+          <div className="text-left hidden md:flex flex-col justify-center pl-8">
             <h2 className="text-white text-xl font-semibold">
               Welcome, {user?.userName ?? "User"}! 👋🏻
             </h2>
@@ -27,7 +27,7 @@ const TopNav: React.FC = () => {
             </span>
           </div>
         </div>
-        <div className="mr-4">
+        <div className="mr-4 hidden md:block">
           {isAdmin && (
             <Button
               asChild
