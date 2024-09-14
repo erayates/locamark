@@ -1,4 +1,4 @@
-import { LayoutGrid, Settings, UsersRound, Waypoints } from "lucide-react";
+import { LayoutGrid, UsersRound, Waypoints } from "lucide-react";
 
 type Link = {
   title: string;

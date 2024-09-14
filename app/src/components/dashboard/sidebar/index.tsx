@@ -24,17 +24,28 @@ function Sidebar() {
               <Menu size={24} />
             </span>
             <div className={`mt-8 flex items-center justify-center`}>
-              <img
-                src="/assets/images/locamark-logo.png"
-                width={200}
-                height={50}
-                alt="Locamark Logo"
-              />
+              <a href="/">
+                <img
+                  src="/assets/images/locamark-logo.png"
+                  width={200}
+                  height={50}
+                  alt="Locamark Logo"
+                />
+              </a>
             </div>
             <div className="my-8 h-px bg-muted-foreground/50 dark:bg-white/10" />
             <SidebarLinks />
           </div>
           <div className="mb-9 mt-7">
+            <div className="flex items-center justify-center">
+              <Button
+                asChild
+                variant="outline"
+                className="text-xs p-3 font-semibold w-full bg-transparent text-white border-muted-foreground"
+              >
+                <a href="/">Go to App</a>
+              </Button>
+            </div>
             <div className="mt-5 flex w-full items-center rounded-lg border border-muted-foreground/50 bg-white p-4 dark:border-zinc-800">
               <a href="/dashboard/dashboard/settings">
                 <Avatar>
@@ -53,6 +64,7 @@ function Sidebar() {
                   {user?.email}
                 </p>
               </a>
+
               <Button
                 variant="outline"
                 className="ml-auto flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full p-0 text-center text-sm font-medium hover:dark:text-white"

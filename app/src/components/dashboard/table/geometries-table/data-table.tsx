@@ -67,7 +67,7 @@ export function GeometriesTable<TData, TValue>({
       {/* Search Input */}
       <div className="flex items-center justify-start py-4">
         <Input
-          placeholder="Search a users..."
+          placeholder="Search a geometry..."
           value={
             (table.getColumn("name")?.getFilterValue() as string) ?? ""
           }
