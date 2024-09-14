@@ -18,7 +18,7 @@ const Profile: React.FC = () => {
   };
 
   return (
-    <div className="pl-0 lg:pl-4 flex h-full w-2/12 lg:w-4/12 xl:w-3/12 items-center justify-center lg:justify-end z-40 bg-richBlack rounded-lg">
+    <React.Fragment>
       <DropdownMenu>
         <DropdownMenuTrigger className="outline-none hover:outline-none ring-0 active:outline-none focus:outline-none focus:ring-0 border-none">
           <div className="flex items-center justify-center lg:space-x-2">
@@ -44,10 +44,10 @@ const Profile: React.FC = () => {
         <DropdownMenuContent className="w-44"></DropdownMenuContent>
       </DropdownMenu>
 
-        <Button className="text-white hidden lg:block">
-          <LogOutIcon onClick={handleLogout} className="w-6 h-6" />
-        </Button>
-    </div>
+      <Button className="text-white hidden lg:block">
+        <LogOutIcon onClick={handleLogout} className="w-6 h-6" />
+      </Button>
+    </React.Fragment>
   );
 };
 
