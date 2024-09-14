@@ -6,9 +6,9 @@ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import CustomInput from "../form-elements/custom-input";
 import { RotateCcw } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import CustomInput from "@/components/form-elements/custom-input";
 
 const FormSchema = z.object({
   userName: z

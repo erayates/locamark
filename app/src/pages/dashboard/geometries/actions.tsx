@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_BASEURL } from "@/lib/constants";
+import { IGeometry } from "@/types";
 
 const getAuthHeader = () => {
   const token = localStorage.getItem("token");
@@ -32,50 +33,35 @@ export async function _getGeometryById(id: number) {
 }
 
 export async function _deleteGeometryById(id: number) {
-    try {
-      const response = await axios.delete(`${API_BASEURL}/Admin/geometries/${id}`, {
+  try {
+    const response = await axios.delete(
+      `${API_BASEURL}/Admin/geometries/${id}`,
+      {
         headers: getAuthHeader(),
-      });
-      return response.data;
-    } catch (error) {
-      console.error("Fetch error:", error);
-      throw error;
-    }
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Fetch error:", error);
+    throw error;
   }
-  
+}
 
-// export async function _create(geometry: IGeometry) {
-//   console.log(geometry);
-//   try {
-//     const response = await axios.post(`${API_BASEURL}/Geometry`, geometry, {
-//       headers: {
-//         ...getAuthHeader(),
-//         "Content-Type": "application/json",
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     console.error("Fetch error:", error);
-//     throw error;
-//   }
-// }
-
-// export async function _update(id: number, updatedGeometry: IGeometry) {
-//   try {
-//     const response = await axios.put(
-//       `${API_BASEURL}/Geometry/${id}`,
-//       updatedGeometry,
-//       {
-//         headers: {
-//           ...getAuthHeader(),
-//           "Content-Type": "application/json",
-//         },
-//       }
-//     );
-//     return response.data;
-//   } catch (error) {
-//     console.error("Fetch error:", error);
-//     throw error;
-//   }
-// }
-
+export async function _updateGeometry(id: number, updatedGeometry: IGeometry) {
+  try {
+    const response = await axios.put(
+      `${API_BASEURL}/Admin/geometries/${id}`,
+      updatedGeometry,
+      {
+        headers: {
+          ...getAuthHeader(),
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Fetch error:", error);
+    throw error;
+  }
+}

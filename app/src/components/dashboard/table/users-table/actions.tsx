@@ -25,7 +25,7 @@ const UsersTableActions: React.FC<UsersTableActionsProps> = ({ rowData }) => {
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 w-[150px]">
       <Button variant="outline" onClick={onUpdateButtonClick}>
         <Pencil size={16} />
       </Button>

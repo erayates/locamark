@@ -1,19 +1,18 @@
 import React from "react";
 import { useModalContext } from "../hooks/useModalContext";
 import { ResponsiveDialog } from "./ResponsiveDialog";
-import { UpdateForm } from "./forms/update-form";
-import { CreateForm } from "./forms/create-form";
+import { UpdateForm } from "./forms/update/geometry";
+import { CreateForm } from "./forms/create/geometry";
 import { UpdateDialog } from "./UpdateDialog";
 import { DataTable } from "./table/data-table";
 import { columns } from "./table/columns";
 import { useMapContext } from "@/hooks/useMapContext";
-import { UpdateUserForm } from "./forms/update/user-form";
+import { UpdateUserForm } from "./forms/update/user";
 
 const Modals: React.FC = () => {
   const { modals, closeModal } = useModalContext();
   const { state } = useMapContext();
 
-  // Handle modal close
   const handleModalClose = (modalName: string) => {
     closeModal(modalName);
   };

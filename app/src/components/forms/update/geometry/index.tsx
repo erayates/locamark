@@ -4,11 +4,12 @@ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import CustomInput from "../form-elements/custom-input";
+import CustomInput from "../../../form-elements/custom-input";
 import { useModalContext } from "@/hooks/useModalContext";
-import { useToast } from "../ui/use-toast";
+import { useToast } from "../../../ui/use-toast";
 import { _update } from "@/actions";
 import { useMapContext } from "@/hooks/useMapContext";
+import { _updateGeometry } from "@/pages/dashboard/geometries/actions";
 
 const FormSchema = z.object({
   name: z
@@ -39,7 +40,12 @@ export function UpdateForm() {
       const { wkt, name } = data;
       const updateData = { wkt, name };
 
-      const response = await _update(modals.update.data?.id ?? 0, updateData);
+      const response = modals.update.isAdmin
+        ? await _updateGeometry(modals.update.data?.id ?? 0, updateData)
+        : await _update(modals.update.data?.id ?? 0, updateData);
+
+        console.log(response)
+
       if (response.success) {
         closeModal("update");
         toast({

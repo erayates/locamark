@@ -23,7 +23,7 @@ const DashboardPageHeader: React.FC<DashboardPageHeaderProps> = ({
         <p className="text-muted-foreground text-sm">{description}</p>
       </div>
 
-      <div className="text-right">
+      <div className="text-right hidden lg:block">
         <h2 className="text-xl font-semibold text-muted-foreground dark:text-white">
           Welcome, {user?.userName ?? "User"}! 👋🏻
         </h2>

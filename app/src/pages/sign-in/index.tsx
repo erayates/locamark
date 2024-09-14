@@ -1,5 +1,5 @@
 import AuthLayout from "@/layouts/AuthLayout";
-import SignInForm from "@/components/forms/sign-in-form";
+import SignInForm from "@/components/forms/auth/sign-in-form";
 
 export default function SignInPage() {
   return (
