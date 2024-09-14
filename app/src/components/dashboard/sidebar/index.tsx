@@ -2,27 +2,39 @@
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { LogOut, Menu } from "lucide-react";
+import { LogOut, X } from "lucide-react";
 import SidebarLinks from "./components/Links";
 import { useAuth } from "@/hooks/useAuth";
 import { AvatarImage } from "@radix-ui/react-avatar";
+import React from "react";
+import { cn } from "@/lib/utils";
 //   } ${props?.open ? "" : "-translate-x-[120%] xl:translate-x-[unset]"}`}
 
-function Sidebar() {
+type SidebarProps = {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
   const { user, logout } = useAuth();
 
   return (
     <div
-      className={`lg:!z-99 fixed shadow-xl !z-[99] bg-richBlack min-h-full w-[300px] -translate-x-[120%] md:translate-x-[unset] transition-all md:!z-[99] xl:!z-0 xl:block`}
+      className={cn(
+        `lg:!z-99 fixed shadow-xl !z-[99] bg-richBlack min-h-full w-[300px] transition-all md:!z-[99] xl:!z-0 xl:block`,
+        isOpen ? "" : "-translate-x-[120%] md:translate-x-[unset]"
+      )}
     >
       <div
         className={`h-[96.5vh] w-full overflow-hidden !rounded-lg border-zinc-200 p-4 dark:border-zinc-800 `}
       >
+        <div className="absolute top-2 md:hidden right-4 text-white">
+          <Button variant="default" className="text-white p-0">
+            <X size={24} onClick={() => setIsOpen(false)} />
+          </Button>
+        </div>
         <div className="flex h-full flex-col justify-between w-full">
           <div>
-            <span className="absolute top-4 block cursor-pointer text-zinc-200 dark:text-white/40 xl:hidden">
-              <Menu size={24} />
-            </span>
             <div className={`mt-8 flex items-center justify-center`}>
               <a href="/">
                 <img
@@ -78,8 +90,6 @@ function Sidebar() {
       </div>
     </div>
   );
-}
-
-// PROPS
+};
 
 export default Sidebar;

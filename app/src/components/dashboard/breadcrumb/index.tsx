@@ -44,7 +44,7 @@ const ResponsiveBreadcrumb: React.FC<ResponsiveBreadcrumbProps> = ({
 
   return (
     <Breadcrumb>
-      <BreadcrumbList>
+      <BreadcrumbList className="border border-muted-foreground border-dashed py-2 px-4 rounded-full">
         {items.length > ITEMS_TO_DISPLAY ? (
           <React.Fragment>
             <BreadcrumbItem>
