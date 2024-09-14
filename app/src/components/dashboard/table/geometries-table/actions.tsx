@@ -3,21 +3,23 @@ import { Pencil } from "lucide-react";
 
 import { DeleteDialog } from "@/components/DeleteDialog";
 import { Button } from "@/components/ui/button";
+import { _deleteGeometryById, _getGeometryById } from "@/pages/dashboard/geometries/actions";
+import { IGeometry } from "@/types";
+import { useModalContext } from "@/hooks/useModalContext";
 
-type UsersTableActionsProps = {
-  rowData: any;
+type GeometriesTableActionProps = {
+  rowData: IGeometry;
 };
 
-const GeometriesTableActions: React.FC<UsersTableActionsProps> = ({
+const GeometriesTableActions: React.FC<GeometriesTableActionProps> = ({
   rowData,
 }) => {
-  //   const { openModal, closeModal } = useModalContext();
-  //   const { toast } = useToast();
+  const { openModal } = useModalContext();
 
   const onUpdateButtonClick = async () => {
-    // const response = await _getById(rowData.id ?? 0);
-    // if (!response.success) return;
-    // openModal("update", response.data);
+    const response = await _getGeometryById(rowData.id ?? 0);
+    if (!response.success) return;
+    openModal("update", response.data, "Geometry");
   };
 
   return (
@@ -25,7 +27,10 @@ const GeometriesTableActions: React.FC<UsersTableActionsProps> = ({
       <Button variant="outline" onClick={onUpdateButtonClick}>
         <Pencil size={16} />
       </Button>
-      <DeleteDialog elementId={rowData.id ?? 0} variantOutline={true} />
+      <DeleteDialog
+        variantOutline={true}
+        handleDelete={async () => _deleteGeometryById(rowData.id ?? 0)}
+      />
     </div>
   );
 };

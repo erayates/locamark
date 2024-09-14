@@ -3,7 +3,7 @@ import { Pencil } from "lucide-react";
 
 import { DeleteDialog } from "@/components/DeleteDialog";
 import { Button } from "@/components/ui/button";
-import { _getUserById } from "@/pages/dashboard/users/actions";
+import { _deleteUser, _getUserById } from "@/pages/dashboard/users/actions";
 import { useModalContext } from "@/hooks/useModalContext";
 
 type UsersTableActionsProps = {
@@ -29,7 +29,11 @@ const UsersTableActions: React.FC<UsersTableActionsProps> = ({ rowData }) => {
       <Button variant="outline" onClick={onUpdateButtonClick}>
         <Pencil size={16} />
       </Button>
-      <DeleteDialog elementId={rowData.id} variantOutline={true} type="User" />
+      <DeleteDialog
+        variantOutline={true}
+        type="User"
+        handleDelete={async () => _deleteUser(rowData.id)}
+      />
     </div>
   );
 };

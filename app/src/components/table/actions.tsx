@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 import { Eye, Pencil } from "lucide-react";
 import { DeleteDialog } from "../DeleteDialog";
 import { useModalContext } from "@/hooks/useModalContext";
-import { _getById } from "@/actions";
+import { _delete, _getById } from "@/actions";
 import { IGeometry } from "@/types";
 import WKT from "ol/format/WKT";
 import { getCenter } from "ol/extent";
@@ -91,10 +91,10 @@ const TableActions: React.FC<TableActionsProps> = ({ rowData }) => {
     };
 
     const existingFeature = state.source
-    ?.getFeatures()
-    .find((f) => f.get("id") === rowData.id);
+      ?.getFeatures()
+      .find((f) => f.get("id") === rowData.id);
 
-    if(!existingFeature) return;
+    if (!existingFeature) return;
 
     setMapPopup(popupData);
 
@@ -102,7 +102,6 @@ const TableActions: React.FC<TableActionsProps> = ({ rowData }) => {
     state.overlay?.setPosition(center);
     state.select?.getFeatures().clear();
     state.select?.getFeatures().push(existingFeature);
-
   };
 
   return (
@@ -134,7 +133,10 @@ const TableActions: React.FC<TableActionsProps> = ({ rowData }) => {
           </Button>
         </DropdownMenuContent>
       </DropdownMenu>
-      <DeleteDialog elementId={rowData.id ?? 0} variantOutline={true} />
+      <DeleteDialog
+        handleDelete={async () => _delete(rowData.id as number)}
+        variantOutline={true}
+      />
     </div>
   );
 };

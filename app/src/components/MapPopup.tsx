@@ -11,6 +11,7 @@ import {
 } from "./ui/dropdown-menu";
 import { useModalContext } from "@/hooks/useModalContext";
 import { useToast } from "./ui/use-toast";
+import { _delete } from "@/actions";
 
 // interface ContentState {
 //   id: number;
@@ -120,7 +121,9 @@ export default function MapPopup() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <DeleteDialog elementId={state.mapPopup?.id ?? 0} />
+          <DeleteDialog
+            handleDelete={async () => _delete(state.mapPopup?.id as number)}
+          />
         </div>
       </div>
     </div>
