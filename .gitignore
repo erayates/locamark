@@ -22,3 +22,102 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+# Ignore build outputs and other files
+bin/
+obj/
+
+# User-specific files
+*.user
+*.userosscache
+*.sln.docstates
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln.metaproj
+*.csproj.user
+*.sln
+
+# Visual Studio Code-specific files
+.vscode/*
+
+# Rider-specific files
+.idea/
+
+# MacOS specific files
+*.DS_Store
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# NPM Packages (if any front-end code is integrated)
+node_modules/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+.nuget/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Log and local files
+*.log
+logs/
+*.local.json
+.env
+.env.*.local
+
+# Generated files (by bundlers, etc.)
+BundleConfig.coffee
+BundleConfig.js
+BundleConfig.ts
+BundleConfig.json
+yarn.lock
+package-lock.json
+
+# JetBrains Rider settings
+.idea/
+
+# Resharper settings
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# StyleCop configuration files
+*.ruleset
+.stylecop
+
+# dotCover folder
+dotCover.Setup
+
+# Local History for Rider
+.idea/
+
+# SQL Server files
+*.mdf
+*.ldf
+
+# Linux directories
+**/bin/
+**/obj/
+
+# File-based database settings
+*.sqlite
+*.db
+
+# Deployment files
+.publish/
+
+# Generated documentation files
+*.generated.cs
+*.generated.ts
