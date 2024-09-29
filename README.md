@@ -196,6 +196,7 @@ For more examples and detailed information, please refer to the [Documentation](
 - [X] Role Based Authentication and Authorization
 - [X] Admin Dashboard
 - [X] Responsive views for all pages
+- [ ] Dockerize the project. 
 
 
 See the [open issues](https://github.com/erayates/locamark/issues) for a full list of proposed features (and known issues).
